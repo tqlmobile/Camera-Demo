@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ImagePreviewController : UIViewController
+{
+    NSMutableArray *_arrayOfImages;
+}
 
 @property (nonatomic,strong) NSMutableArray *arrayOfImages;
 
-@property (unsafe_unretained, nonatomic) IBOutlet UINavigationItem *imagePreviewNavBar;
-- (IBAction)backButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *imagesTableView;
 
 
 @end

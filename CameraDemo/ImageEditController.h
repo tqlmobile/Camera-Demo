@@ -10,4 +10,7 @@
 
 @interface ImageEditController : UIViewController
 
+@property (nonatomic, strong) UIImage *displayImage;
+@property (weak, nonatomic) IBOutlet UIImageView *imageToEdit;
+
 @end

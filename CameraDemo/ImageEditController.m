@@ -23,9 +23,21 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
+    self.navigationItem.rightBarButtonItem = doneButton;
+}
+
+-(void)done
+{
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.imageToEdit.image = self.displayImage;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -35,4 +47,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+     - (void)viewDidUnload {
+         [self setImageToEdit:nil];
+         [super viewDidUnload];
+     }
 @end

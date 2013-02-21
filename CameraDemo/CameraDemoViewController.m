@@ -19,15 +19,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.title = @"Camera Demo";
-    if (self.picsArray != nil)
-    {
-        self.openPhotosButton.titleLabel.text = [NSString stringWithFormat:@"%i Documents",[self.picsArray count]];
-    }
-    else
-    {
-        [self.openPhotosButton setHidden:TRUE];
-    }
+    self.title = @"Camera Demo";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
+                                   initWithTitle: @"Back"
+                                   style: UIBarButtonItemStyleBordered
+                                   target: nil action: nil];
+    [self.navigationItem setBackBarButtonItem: backButton];
 }
 
 - (void)viewDidLoad
@@ -103,7 +100,7 @@
     self.cameraUI.allowsEditing = YES;
     self.cameraUI.showsCameraControls = NO;
     self.cameraUI.delegate = self;
-    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+    //self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
@@ -160,7 +157,7 @@
         }*/
         
         // Save the new image (original or edited) to the Camera Roll
-        //UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil , nil);
+        UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil , nil);
     
     //[self dismissModalViewControllerAnimated: YES];
 }

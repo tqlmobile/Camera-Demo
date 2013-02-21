@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DocumentImaging_UploadDocument_v1_0</key>
+	<string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;soap:Envelope xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&lt;soap:Body&gt;&lt;DocumentImaging_UploadDocument_v1_0 xmlns=&quot;http://mobileapps.tql.com/Carriers/CarrierDashboard/&quot;&gt;&lt;filename&gt;%@&lt;/filename&gt;&lt;fileContents&gt;%@&lt;/fileContents&gt;&lt;/DocumentImaging_UploadDocument_v1_0&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;</string>
+</dict>
+</plist>

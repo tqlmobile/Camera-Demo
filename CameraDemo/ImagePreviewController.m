@@ -7,12 +7,16 @@
 //
 
 #import "ImagePreviewController.h"
+#import "ImageEditController.h"
+#import "ProcessDocsViewController.h"
 
 @interface ImagePreviewController ()
 
 @end
 
 @implementation ImagePreviewController
+
+@synthesize arrayOfImages = _arrayOfImages;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,9 +36,24 @@
     return _arrayOfImages;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = FALSE;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self.imagesTableView reloadData];
+    UIBarButtonItem *done = [[UIBarButtonItem alloc]initWithTitle:@"Process" style:UIBarButtonItemStyleDone target:self action:@selector(processDocs)];
+    self.navigationItem.rightBarButtonItem = done;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Current Documents";
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -44,18 +63,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)processDocs
+{
+    ProcessDocsViewController *vc = [[ProcessDocsViewController alloc]init];
+    [vc setAllDocsArray:self.arrayOfImages];
+    [self.navigationController pushViewController:vc animated:TRUE];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
+
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.arrayOfImages count];
 }
@@ -117,22 +142,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+
+    ImageEditController *iec = [ImageEditController new];
+    [iec setDisplayImage:[self.arrayOfImages objectAtIndex:indexPath.row]];
+    [self.navigationController pushViewController:iec animated:TRUE];
 }
 
 
 - (void)viewDidUnload {
-    [self setImagePreviewNavBar:nil];
     [super viewDidUnload];
 }
-- (IBAction)backButton:(id)sender
-{
-    [self dismissViewControllerAnimated:TRUE completion:nil];
-}
+
 @end
