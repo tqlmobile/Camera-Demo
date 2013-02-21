@@ -11,14 +11,15 @@
 #import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import "CameraDemoOverlayViewController.h"
-#import "CameraDemoImages.m"
+#import "ImagePreviewController.h"
 
 @interface CameraDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate,CameraOverlayDelegate>
 
 @property (strong, nonatomic) UIImagePickerController *cameraUI;
 @property (strong, nonatomic) CameraDemoOverlayViewController *overlay;
 @property (strong, nonatomic) NSMutableArray *picsArray;
-
+@property (strong, nonatomic) ImagePreviewController *imagePreview;
+@property (weak, nonatomic) IBOutlet UIButton *openPhotosButton;
 
 
 - (IBAction)openCamera:(id)sender;

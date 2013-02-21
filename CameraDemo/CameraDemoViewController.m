@@ -9,7 +9,9 @@
 #import "CameraDemoViewController.h"
 
 @interface CameraDemoViewController ()
-
+{
+    
+}
 @end
 
 @implementation CameraDemoViewController
@@ -17,6 +19,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.title = @"Camera Demo";
+    if (self.picsArray != nil)
+    {
+        self.openPhotosButton.titleLabel.text = [NSString stringWithFormat:@"%i Documents",[self.picsArray count]];
+    }
+    else
+    {
+        [self.openPhotosButton setHidden:TRUE];
+    }
 }
 
 - (void)viewDidLoad
@@ -54,6 +65,15 @@
 
 }
 
+-(ImagePreviewController *)imagePreview
+{
+    if (_imagePreview == nil)
+    {
+        _imagePreview = [[ImagePreviewController alloc]init];
+    }
+    return _imagePreview;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -85,7 +105,18 @@
     self.cameraUI.delegate = self;
     self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
     self.cameraUI.cameraOverlayView = self.overlay.view;
+    self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
+}
+
+- (IBAction)openPhotos:(id)sender
+{
+    if (self.picsArray == nil)
+    {
+        [self.imagePreview setArrayOfImages:self.picsArray];
+    }
+    [self.imagePreview setArrayOfImages:self.picsArray];
+    [self.navigationController pushViewController:self.imagePreview animated:TRUE];
 }
 
 -(void)cancel
@@ -96,16 +127,14 @@
 
 -(void)done
 {
-    [self dismissModalViewControllerAnimated:TRUE];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self];
-    CameraDemoImages *imagesTableView = [[CameraDemoImages alloc]initWithImagesArray:self.picsArray];
-    [nav pushViewController:imagesTableView animated:TRUE];
+    [self.cameraUI dismissModalViewControllerAnimated:TRUE];
 }
 
 #pragma mark- ImagePicker Delegate Methods
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -131,12 +160,13 @@
         }*/
         
         // Save the new image (original or edited) to the Camera Roll
-        UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil , nil);
+        //UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil , nil);
     
     //[self dismissModalViewControllerAnimated: YES];
 }
 
 - (void)viewDidUnload {
+    [self setOpenPhotosButton:nil];
     [super viewDidUnload];
 }
 @end
