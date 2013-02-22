@@ -10,7 +10,7 @@
 
 @interface CameraDemoViewController ()
 {
-    
+    CIContext *context;
 }
 @end
 
@@ -33,33 +33,13 @@
 	self.cameraUI = [[UIImagePickerController alloc] init];
     self.overlay = [[CameraDemoOverlayViewController alloc]init];
     self.overlay.delegate = self;
-    /*NSString *path = [[NSBundle mainBundle]pathForResource:@"rainbow" ofType:@"png"];
-    NSURL *url = [NSURL fileURLWithPath:path];
-    CIImage *image = [CIImage imageWithContentsOfURL:url];
-    
-    CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
-    //NSLog(@"%@",[filter attributes]);
-    [filter setValue:image forKey:kCIInputImageKey];
-    [filter setValue:[NSNumber numberWithFloat:0.8f] forKey:@"inputIntensity"];
-    
-    //To use CPU Rendering
-    NSDictionary *options = @{kCIContextUseSoftwareRenderer : @YES};
-    
-    CIContext *cpu_context = [CIContext contextWithOptions:options];
-    
-    CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGImageRef cgImage = [cpu_context createCGImage:result fromRect:[result extent]];
-    
-    ALAssetsLibrary  *library = [ALAssetsLibrary new];
-    [library writeImageToSavedPhotosAlbum:cgImage metadata:[image properties] completionBlock:^(NSURL *assetURL, NSError *error){NSLog(@"Saved");}];
-    
-     
-     NSArray *list = [CIFilter filterNamesInCategory:kCICategoryBuiltIn];
-    NSLog(@"%@",list);
-    //UIImage *newImage = [UIImage imageWithCIImage:filter.outputImage];
-    self.myImageView.image = [UIImage imageWithCGImage:cgImage scale:1 orientation:UIImageOrientationUp];
-    //self.myImageView.image = newImage;*/
-
+    NSArray *filters = [CIFilter filterNamesInCategory:kCICategoryBuiltIn];
+    for (NSString *filterName in filters)
+    {
+        CIFilter *cifltr = [CIFilter filterWithName:filterName];
+        NSLog(@"%@",filterName);
+        NSLog(@"%@",[cifltr attributes]);
+    }
 }
 
 -(ImagePreviewController *)imagePreview
@@ -100,7 +80,7 @@
     self.cameraUI.allowsEditing = YES;
     self.cameraUI.showsCameraControls = NO;
     self.cameraUI.delegate = self;
-    //self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
@@ -141,25 +121,56 @@
     NSLog(@"%@",info);
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-    
+    originalImage = [self rotate:originalImage andOrientation:UIImageOrientationUp];
+    NSLog(@"Original Image Size: %f by %f", originalImage.size.width, originalImage.size.height);
+    /*context = [CIContext contextWithOptions:nil];
+    CIImage *beginImage = [CIImage imageWithCGImage:originalImage.CGImage];
+    CIFilter *filter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
+    [filter setValue:beginImage forKey:@"inputImage"];
+    [filter setValue:@1 forKey:@"inputAspectRatio"];
+    [filter setValue:@0.4 forKey:@"inputScale"];
+    CIImage *outputImage = [filter outputImage];
+    CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
+    UIImage *newImage = [UIImage imageWithCGImage:cgimg];*/
+    CGSize newImageSize;
+    newImageSize.width = 810;
+    newImageSize.height = 1060;
+    originalImage = [self imageWithImage:originalImage scaledToSize:newImageSize];
+     NSLog(@"New Image Size: %f by %f", originalImage.size.width, originalImage.size.height);
     [self.picsArray addObject:originalImage];
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
 
-    // Handle a still image capture
-        
-        //editedImage = (UIImage *) [info objectForKey: UIImagePickerControllerEditedImage];
-        
-        
-        /*if (editedImage) {
-            imageToSave = editedImage;
-        } else {
-            imageToSave = originalImage;
-        }*/
-        
-        // Save the new image (original or edited) to the Camera Roll
-        UIImageWriteToSavedPhotosAlbum (originalImage, nil, nil , nil);
+}
+
+-(UIImage*) rotate:(UIImage*) src andOrientation:(UIImageOrientation)orientation
+{
+    UIGraphicsBeginImageContext(src.size);
     
-    //[self dismissModalViewControllerAnimated: YES];
+    CGContextRef contextt = (UIGraphicsGetCurrentContext());
+    
+    if (orientation == UIImageOrientationRight) {
+        CGContextRotateCTM (contextt, 90/180*M_PI) ;
+    } else if (orientation == UIImageOrientationLeft) {
+        CGContextRotateCTM (contextt, -90/180*M_PI);
+    } else if (orientation == UIImageOrientationDown) {
+        // NOTHING
+    } else if (orientation == UIImageOrientationUp) {
+        CGContextRotateCTM (contextt, 90/180*M_PI);
+    }
+    
+    [src drawAtPoint:CGPointMake(0, 0)];
+    UIImage *img=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+    
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 - (void)viewDidUnload {

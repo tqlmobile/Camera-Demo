@@ -13,6 +13,6 @@
 
 @interface ProcessDocsViewController : UIViewController <MFMailComposeViewControllerDelegate, ASIHTTPRequestDelegate>
 
-@property (nonatomic, strong) NSArray *allDocsArray;
+@property (nonatomic, strong) NSMutableArray *allDocsArray;
 
 @end

@@ -17,6 +17,8 @@
 {
     CGSize _pageSize;
     int pageNumber;
+    CIContext *context;
+    
 }
 @end
 
@@ -41,6 +43,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    context = [CIContext contextWithOptions:nil];
+    [self performSelector:@selector(enhanceImages)];
     [self setupPDFDocumentNamed:@"ExamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
     for (UIImage *image in _allDocsArray)
@@ -57,6 +62,56 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)enhanceImages
+{
+    
+    for (int i = 0; i < [self.allDocsArray count]; i++)
+    {
+        UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
+        inputImage = [self rotate:inputImage andOrientation:UIImageOrientationUp];
+        CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage];
+        /*CIFilter *filter = [CIFilter filterWithName:@"CIHighlightShadowAdjust" keysAndValues:kCIInputImageKey,beginImage,nil];
+        [filter setValue:[NSNumber numberWithFloat: 1.0f]
+                  forKey:@"inputHighlightAmount"];
+        [filter setValue:[NSNumber numberWithFloat: -1.0f]
+                  forKey:@"inputShadowAmount"];*/
+        CIFilter *filter = [CIFilter filterWithName:@"CIColorControls"];
+        [filter setDefaults];
+        [filter setValue: beginImage forKey: @"inputImage"];
+        [filter setValue: [NSNumber numberWithFloat:0.5f]
+                                   forKey:@"inputBrightness"];
+        [filter setValue: [NSNumber numberWithFloat:2.0f]
+                                   forKey:@"inputContrast"];
+        CIImage *outputImage = [filter outputImage];
+        CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
+        UIImage *newImage = [UIImage imageWithCGImage:cgimg];
+        [self.allDocsArray replaceObjectAtIndex:i withObject:newImage];
+        CGImageRelease(cgimg);
+    }
+}
+
+-(UIImage*) rotate:(UIImage*) src andOrientation:(UIImageOrientation)orientation
+{
+    UIGraphicsBeginImageContext(src.size);
+    
+    CGContextRef contextt = (UIGraphicsGetCurrentContext());
+    
+    if (orientation == UIImageOrientationRight) {
+        CGContextRotateCTM (contextt, 90/180*M_PI) ;
+    } else if (orientation == UIImageOrientationLeft) {
+        CGContextRotateCTM (contextt, -90/180*M_PI);
+    } else if (orientation == UIImageOrientationDown) {
+        // NOTHING
+    } else if (orientation == UIImageOrientationUp) {
+        CGContextRotateCTM (contextt, 90/180*M_PI);
+    }
+    
+    [src drawAtPoint:CGPointMake(0, 0)];
+    UIImage *img=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+    
+}
 
 #pragma mark- Begin PDF Conversion
 
@@ -73,7 +128,7 @@
 - (void)beginPDFPage {
     UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, _pageSize.width, _pageSize.height), nil);
     
-        CGRect imageRect = [self addImage:[self.allDocsArray objectAtIndex:pageNumber]
+    [self addImage:[self.allDocsArray objectAtIndex:pageNumber]
                                   atPoint:CGPointMake(kPadding, kPadding)];
 }
 
@@ -115,7 +170,7 @@
     NSData *data = [NSData dataWithContentsOfFile:pdfPath];
     
     
-    /*Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     if ([mailClass canSendMail])
     {
         MFMailComposeViewController *compose = [[MFMailComposeViewController alloc]init];
@@ -124,10 +179,10 @@
         [compose setSubject:@"New Example Document"];
         [compose setToRecipients:[NSArray arrayWithObject:@"ctritt@tql.com"]];
         [self presentModalViewController:compose animated:YES];
-    }*/
+    }
     
     
-    NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
+    /*NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
     NSDictionary *soapDict = [[NSDictionary alloc]initWithContentsOfFile:path];
    
     NSString *dataString = [data base64EncodedString];
@@ -147,7 +202,7 @@
     [request addRequestHeader:@"Content-Length" value:msgLength];
     [request addBasicAuthenticationHeaderWithUsername:@"dbcarrier" andPassword:@"dbcarrier"];
     [request setDelegate:self];
-    [request startAsynchronous];
+    [request startAsynchronous];*/
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -168,5 +223,6 @@
     [self dismissModalViewControllerAnimated:YES];
     
 }
+
 
 @end

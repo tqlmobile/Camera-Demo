@@ -46,14 +46,13 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [self.imagesTableView reloadData];
-    UIBarButtonItem *done = [[UIBarButtonItem alloc]initWithTitle:@"Process" style:UIBarButtonItemStyleDone target:self action:@selector(processDocs)];
-    self.navigationItem.rightBarButtonItem = done;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.title = @"Current Documents";
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -63,7 +62,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)processDocs
+- (IBAction)processDocuments:(id)sender
 {
     ProcessDocsViewController *vc = [[ProcessDocsViewController alloc]init];
     [vc setAllDocsArray:self.arrayOfImages];
@@ -94,49 +93,51 @@
     }
     cell.textLabel.text = [NSString stringWithFormat:@"Document %i", indexPath.row];
     cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+    cell.shouldIndentWhileEditing = YES;
     // Configure the cell...
     
     return cell;
 }
 
-/*
+
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
  {
  // Return NO if you do not want the specified item to be editable.
  return YES;
  }
- */
 
-/*
  // Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
  if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
+ [self.arrayOfImages removeObjectAtIndex:indexPath.row];
  [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
  }
  else if (editingStyle == UITableViewCellEditingStyleInsert) {
  // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
  }
  }
- */
+ 
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self.imagesTableView setEditing:editing animated:YES];
+}
 
-/*
  // Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
  {
- }
- */
+     [self.arrayOfImages exchangeObjectAtIndex:fromIndexPath.row withObjectAtIndex:toIndexPath.row];
+}
+// Override to support rearranging the table view.
 
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+
 
 #pragma mark - Table view delegate
 
@@ -148,9 +149,9 @@
     [self.navigationController pushViewController:iec animated:TRUE];
 }
 
-
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
+
 
 @end

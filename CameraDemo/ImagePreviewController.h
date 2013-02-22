@@ -16,6 +16,7 @@
 @property (nonatomic,strong) NSMutableArray *arrayOfImages;
 
 @property (weak, nonatomic) IBOutlet UITableView *imagesTableView;
+- (IBAction)processDocuments:(id)sender;
 
 
 @end
