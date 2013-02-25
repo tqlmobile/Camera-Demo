@@ -18,6 +18,7 @@
     // Override point for customization after application launch.
     self.viewController = [[CameraDemoViewController alloc] initWithNibName:@"CameraDemoViewController" bundle:nil];
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self.viewController];
+    [nav.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     return YES;

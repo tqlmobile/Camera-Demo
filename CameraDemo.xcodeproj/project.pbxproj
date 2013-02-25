@@ -10,7 +10,6 @@
 		0E9C8B4016D52AF600BB12EF /* CameraDemoOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C8B3E16D52AF600BB12EF /* CameraDemoOverlayViewController.m */; };
 		0E9C8B4116D52AF600BB12EF /* CameraDemoOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C8B3F16D52AF600BB12EF /* CameraDemoOverlayViewController.xib */; };
 		0E9C8B4516D53F6300BB12EF /* camera_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C8B4416D53F6300BB12EF /* camera_overlay.png */; };
-		0E9C8B5016D55B6B00BB12EF /* CameraDemoImages.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E9C8B4E16D55B6B00BB12EF /* CameraDemoImages.xib */; };
 		3D0C817016D5D0A5004A9D92 /* ImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C816E16D5D0A4004A9D92 /* ImagePreviewController.m */; };
 		3D0C817116D5D0A5004A9D92 /* ImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */; };
 		3D0C817516D5D63C004A9D92 /* ImageEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C817316D5D63B004A9D92 /* ImageEditController.m */; };
@@ -51,6 +50,9 @@
 		3DE25E9716D6A95C00B5721A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E9616D6A95C00B5721A /* Reachability.m */; };
 		3DE25E9D16D6B1E400B5721A /* SoapMessage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E9C16D6B1E400B5721A /* SoapMessage.plist */; };
 		3DE25E9F16D6B52500B5721A /* tqltrax.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E9E16D6B52500B5721A /* tqltrax.pdf */; };
+		3DF1C5CB16DBB36F0054C150 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */; };
+		3DF1C5CD16DBB3B20054C150 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */; };
+		3DF1C5EA16DBDF6D0054C150 /* CropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C5E916DBDF6D0054C150 /* CropView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,7 +60,6 @@
 		0E9C8B3E16D52AF600BB12EF /* CameraDemoOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraDemoOverlayViewController.m; sourceTree = "<group>"; };
 		0E9C8B3F16D52AF600BB12EF /* CameraDemoOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraDemoOverlayViewController.xib; sourceTree = "<group>"; };
 		0E9C8B4416D53F6300BB12EF /* camera_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_overlay.png; sourceTree = "<group>"; };
-		0E9C8B4E16D55B6B00BB12EF /* CameraDemoImages.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraDemoImages.xib; sourceTree = "<group>"; };
 		3D0C816D16D5D0A4004A9D92 /* ImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePreviewController.h; sourceTree = "<group>"; };
 		3D0C816E16D5D0A4004A9D92 /* ImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewController.m; sourceTree = "<group>"; };
 		3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePreviewController.xib; sourceTree = "<group>"; };
@@ -122,6 +123,10 @@
 		3DE25E9616D6A95C00B5721A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		3DE25E9C16D6B1E400B5721A /* SoapMessage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoapMessage.plist; sourceTree = "<group>"; };
 		3DE25E9E16D6B52500B5721A /* tqltrax.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tqltrax.pdf; sourceTree = "<group>"; };
+		3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCV.framework; sourceTree = "<group>"; };
+		3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		3DF1C5E816DBDF6D0054C150 /* CropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CropView.h; sourceTree = "<group>"; };
+		3DF1C5E916DBDF6D0054C150 /* CropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CropView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DF1C5CD16DBB3B20054C150 /* AVFoundation.framework in Frameworks */,
 				3DE25E7116D6A6BC00B5721A /* libz.dylib in Frameworks */,
 				3DE25E1016D3C68100B5721A /* CoreGraphics.framework in Frameworks */,
 				3DE25E6F16D6A6A400B5721A /* MobileCoreServices.framework in Frameworks */,
@@ -141,6 +147,7 @@
 				3DE25E3716D4001200B5721A /* ImageIO.framework in Frameworks */,
 				3DE25E0C16D3C68100B5721A /* UIKit.framework in Frameworks */,
 				3DE25E0E16D3C68100B5721A /* Foundation.framework in Frameworks */,
+				3DF1C5CB16DBB36F0054C150 /* OpenCV.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,10 +158,9 @@
 			isa = PBXGroup;
 			children = (
 				3DE25E2616D3C68100B5721A /* CameraDemoViewController.xib */,
-				3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */,
 				0E9C8B3F16D52AF600BB12EF /* CameraDemoOverlayViewController.xib */,
-				0E9C8B4E16D55B6B00BB12EF /* CameraDemoImages.xib */,
 				3D0C817416D5D63B004A9D92 /* ImageEditController.xib */,
+				3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */,
 				3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */,
 			);
 			name = xib;
@@ -181,6 +187,8 @@
 		3DE25E0A16D3C68100B5721A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */,
+				3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */,
 				3DE25E7016D6A6BB00B5721A /* libz.dylib */,
 				3DE25E6E16D6A6A400B5721A /* MobileCoreServices.framework */,
 				3DE25E6C16D6A69700B5721A /* SystemConfiguration.framework */,
@@ -206,12 +214,14 @@
 				3DE25E2416D3C68100B5721A /* CameraDemoViewController.m */,
 				0E9C8B3D16D52AF600BB12EF /* CameraDemoOverlayViewController.h */,
 				0E9C8B3E16D52AF600BB12EF /* CameraDemoOverlayViewController.m */,
-				3D0C816D16D5D0A4004A9D92 /* ImagePreviewController.h */,
-				3D0C816E16D5D0A4004A9D92 /* ImagePreviewController.m */,
 				3D0C817216D5D63B004A9D92 /* ImageEditController.h */,
 				3D0C817316D5D63B004A9D92 /* ImageEditController.m */,
+				3D0C816D16D5D0A4004A9D92 /* ImagePreviewController.h */,
+				3D0C816E16D5D0A4004A9D92 /* ImagePreviewController.m */,
 				3DE25E4916D67BA900B5721A /* ProcessDocsViewController.h */,
 				3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.m */,
+				3DF1C5E816DBDF6D0054C150 /* CropView.h */,
+				3DF1C5E916DBDF6D0054C150 /* CropView.m */,
 				3DE25E1216D3C68100B5721A /* Supporting Files */,
 			);
 			path = CameraDemo;
@@ -220,10 +230,10 @@
 		3DE25E1216D3C68100B5721A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0E9C8B4B16D54A8600BB12EF /* xib */,
 				3DE25E9E16D6B52500B5721A /* tqltrax.pdf */,
 				3DE25E5216D69D7200B5721A /* example.jpg */,
 				3DE25E6816D6A58700B5721A /* Delete.png */,
-				0E9C8B4B16D54A8600BB12EF /* xib */,
 				0E9C8B4416D53F6300BB12EF /* camera_overlay.png */,
 				3DE25E3216D3FCBF00B5721A /* Apple-Logo_51.jpg */,
 				3DE25E1316D3C68100B5721A /* CameraDemo-Info.plist */,
@@ -344,7 +354,6 @@
 				3DE25E3316D3FCBF00B5721A /* Apple-Logo_51.jpg in Resources */,
 				0E9C8B4116D52AF600BB12EF /* CameraDemoOverlayViewController.xib in Resources */,
 				0E9C8B4516D53F6300BB12EF /* camera_overlay.png in Resources */,
-				0E9C8B5016D55B6B00BB12EF /* CameraDemoImages.xib in Resources */,
 				3D0C817116D5D0A5004A9D92 /* ImagePreviewController.xib in Resources */,
 				3D0C817616D5D63C004A9D92 /* ImageEditController.xib in Resources */,
 				3DE25E4D16D67BA900B5721A /* ProcessDocsViewController.xib in Resources */,
@@ -379,6 +388,7 @@
 				3DE25E8F16D6A72500B5721A /* ASIInputStream.m in Sources */,
 				3DE25E9016D6A72500B5721A /* ASINetworkQueue.m in Sources */,
 				3DE25E9716D6A95C00B5721A /* Reachability.m in Sources */,
+				3DF1C5EA16DBDF6D0054C150 /* CropView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +467,10 @@
 		3DE25E2C16D3C68100B5721A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CameraDemo/CameraDemo-Prefix.pch";
 				INFOPLIST_FILE = "CameraDemo/CameraDemo-Info.plist";
@@ -469,6 +483,10 @@
 		3DE25E2D16D3C68100B5721A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CameraDemo/CameraDemo-Prefix.pch";
 				INFOPLIST_FILE = "CameraDemo/CameraDemo-Info.plist";

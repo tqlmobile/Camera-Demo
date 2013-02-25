@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CropView.h"
+
 
 @interface ImageEditController : UIViewController
 
 @property (nonatomic, strong) UIImage *displayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *imageToEdit;
-
-- (IBAction)goBack:(id)sender;
+@property (nonatomic, strong) NSMutableArray *picsArray;
+@property (nonatomic, strong) CropView *cropView;
 
 
 @end
