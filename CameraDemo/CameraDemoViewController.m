@@ -7,6 +7,7 @@
 //
 
 #import "CameraDemoViewController.h"
+#import "ImageEditController.h"
 
 @interface CameraDemoViewController ()
 {
@@ -121,56 +122,17 @@
     NSLog(@"%@",info);
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-    originalImage = [self rotate:originalImage andOrientation:UIImageOrientationUp];
-    NSLog(@"Original Image Size: %f by %f", originalImage.size.width, originalImage.size.height);
-    /*context = [CIContext contextWithOptions:nil];
-    CIImage *beginImage = [CIImage imageWithCGImage:originalImage.CGImage];
-    CIFilter *filter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-    [filter setValue:beginImage forKey:@"inputImage"];
-    [filter setValue:@1 forKey:@"inputAspectRatio"];
-    [filter setValue:@0.4 forKey:@"inputScale"];
-    CIImage *outputImage = [filter outputImage];
-    CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
-    UIImage *newImage = [UIImage imageWithCGImage:cgimg];*/
-    CGSize newImageSize;
-    newImageSize.width = 810;
-    newImageSize.height = 1060;
-    originalImage = [self imageWithImage:originalImage scaledToSize:newImageSize];
-     NSLog(@"New Image Size: %f by %f", originalImage.size.width, originalImage.size.height);
     [self.picsArray addObject:originalImage];
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
+    [self displayImageforEditing:originalImage];
 
 }
 
--(UIImage*) rotate:(UIImage*) src andOrientation:(UIImageOrientation)orientation
+-(void)displayImageforEditing:(UIImage *)image 
 {
-    UIGraphicsBeginImageContext(src.size);
-    
-    CGContextRef contextt = (UIGraphicsGetCurrentContext());
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (contextt, 90/180*M_PI) ;
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (contextt, -90/180*M_PI);
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (contextt, 90/180*M_PI);
-    }
-    
-    [src drawAtPoint:CGPointMake(0, 0)];
-    UIImage *img=UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return img;
-    
-}
-
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
+    ImageEditController *vc = [[ImageEditController alloc]init];
+    [vc setDisplayImage:image];
+    [self.cameraUI pushViewController:vc animated:TRUE];
 }
 
 - (void)viewDidUnload {

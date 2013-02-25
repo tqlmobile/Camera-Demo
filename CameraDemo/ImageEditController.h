@@ -13,4 +13,7 @@
 @property (nonatomic, strong) UIImage *displayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *imageToEdit;
 
+- (IBAction)goBack:(id)sender;
+
+
 @end

@@ -23,7 +23,6 @@
 		3DE25E1C16D3C68100B5721A /* CameraDemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E1B16D3C68100B5721A /* CameraDemoAppDelegate.m */; };
 		3DE25E1E16D3C68100B5721A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E1D16D3C68100B5721A /* Default.png */; };
 		3DE25E2016D3C68100B5721A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E1F16D3C68100B5721A /* Default@2x.png */; };
-		3DE25E2216D3C68100B5721A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E2116D3C68100B5721A /* Default-568h@2x.png */; };
 		3DE25E2516D3C68100B5721A /* CameraDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E2416D3C68100B5721A /* CameraDemoViewController.m */; };
 		3DE25E2816D3C68100B5721A /* CameraDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E2616D3C68100B5721A /* CameraDemoViewController.xib */; };
 		3DE25E3316D3FCBF00B5721A /* Apple-Logo_51.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E3216D3FCBF00B5721A /* Apple-Logo_51.jpg */; };
@@ -341,7 +340,6 @@
 				3DE25E1616D3C68100B5721A /* InfoPlist.strings in Resources */,
 				3DE25E1E16D3C68100B5721A /* Default.png in Resources */,
 				3DE25E2016D3C68100B5721A /* Default@2x.png in Resources */,
-				3DE25E2216D3C68100B5721A /* Default-568h@2x.png in Resources */,
 				3DE25E2816D3C68100B5721A /* CameraDemoViewController.xib in Resources */,
 				3DE25E3316D3FCBF00B5721A /* Apple-Logo_51.jpg in Resources */,
 				0E9C8B4116D52AF600BB12EF /* CameraDemoOverlayViewController.xib in Resources */,

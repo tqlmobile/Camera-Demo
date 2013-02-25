@@ -26,14 +26,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
-    self.navigationItem.rightBarButtonItem = doneButton;
+    //UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
+    //self.navigationItem.rightBarButtonItem = doneButton;
 }
 
--(void)done
-{
-    
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,4 +47,8 @@
          [self setImageToEdit:nil];
          [super viewDidUnload];
      }
+- (IBAction)goBack:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
 @end
