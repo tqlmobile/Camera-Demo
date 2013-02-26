@@ -12,8 +12,9 @@
 #import <ImageIO/ImageIO.h>
 #import "CameraDemoOverlayViewController.h"
 #import "ImagePreviewController.h"
+#import "ImageEditController.h"
 
-@interface CameraDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate,CameraOverlayDelegate>
+@interface CameraDemoViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate,CameraOverlayDelegate,ImageEditDelegate>
 
 @property (strong, nonatomic) UIImagePickerController *cameraUI;
 @property (strong, nonatomic) CameraDemoOverlayViewController *overlay;

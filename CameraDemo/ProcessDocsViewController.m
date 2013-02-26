@@ -71,23 +71,21 @@
     {
         UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
         inputImage = [self convertImageToGreyScale:inputImage];
-        NSLog(@"Original Image Size: %f by %f", inputImage.size.width, inputImage.size.height);
         inputImage = [self imageWithImage:inputImage scaledToSize:newImageSize];
-        NSLog(@"New Image Size: %f by %f", inputImage.size.width, inputImage.size.height);
-        //inputImage = [self rotate:inputImage andOrientation:UIImageOrientationUp];
+
         NSMutableDictionary *options = [[NSMutableDictionary alloc]init];
         [options setValue:NULL forKey:kCIImageColorSpace];
         CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:options];
-        CIImage *outputImage = nil;
+        //CIImage *outputImage = nil;
+        CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil].outputImage;
+        CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;
         NSArray *adjustments = [beginImage autoAdjustmentFiltersWithOptions:nil];
         NSLog(@"%@",adjustments);
         for (CIFilter *filter in adjustments){
-            [filter setValue:beginImage forKey:kCIInputImageKey];
-            outputImage = filter.outputImage;
+            [filter setValue:output forKey:kCIInputImageKey];
+            output = filter.outputImage;
         }
-        /*CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, outputImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil].outputImage;
-        CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;*/
-        CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
+        CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
         UIImage *newImage = [UIImage imageWithCGImage:cgimg];
         [self.allDocsArray replaceObjectAtIndex:i withObject:newImage];
         CGImageRelease(cgimg);
@@ -118,29 +116,6 @@
 }
 
 
-/*-(UIImage*) rotate:(UIImage*) src andOrientation:(UIImageOrientation)orientation
-{
-    UIGraphicsBeginImageContext(src.size);
-    
-    CGContextRef contextt = (UIGraphicsGetCurrentContext());
-    
-    if (orientation == UIImageOrientationRight) {
-        CGContextRotateCTM (contextt, 90/180*M_PI) ;
-    } else if (orientation == UIImageOrientationLeft) {
-        CGContextRotateCTM (contextt, -90/180*M_PI);
-    } else if (orientation == UIImageOrientationDown) {
-        // NOTHING
-    } else if (orientation == UIImageOrientationUp) {
-        CGContextRotateCTM (contextt, 90/180*M_PI);
-    }
-    
-    [src drawAtPoint:CGPointMake(0, 0)];
-    UIImage *img=UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return img;
-    
-}*/
-
 #pragma mark- Begin PDF Conversion
 
 - (void)setupPDFDocumentNamed:(NSString*)name Width:(float)width Height:(float)height
@@ -168,26 +143,11 @@
 #pragma mark- Add a PDF Page
 - (CGRect)addImage:(UIImage*)image atPoint:(CGPoint)point
 {
-    /*if (image.size.width > kImageWidth && image.size.height > kImageHeight)
-    {
-        CGSize newSize;
-        newSize.width = kImageWidth;
-        newSize.height = kImageHeight;
-        image = [self resizeImage:image newSize:newSize];
-    }*/
     UIImage *compressedImage = [UIImage imageWithData:UIImageJPEGRepresentation(image, 0.5)];
     CGRect imageFrame = CGRectMake(point.x, point.y, kImageWidth, kImageHeight);
     [compressedImage drawInRect:imageFrame];
     return imageFrame;
 }
-
-/*- (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize {
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}*/
 
 #pragma mark- Send PDF to File Server
 -(void)sendPDF
@@ -210,7 +170,7 @@
     }
     
     
-    /*NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
     NSDictionary *soapDict = [[NSDictionary alloc]initWithContentsOfFile:path];
    
     NSString *dataString = [data base64EncodedString];
@@ -230,7 +190,7 @@
     [request addRequestHeader:@"Content-Length" value:msgLength];
     [request addBasicAuthenticationHeaderWithUsername:@"dbcarrier" andPassword:@"dbcarrier"];
     [request setDelegate:self];
-    [request startAsynchronous];*/
+    [request startAsynchronous];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request

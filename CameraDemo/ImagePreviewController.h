@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImageEditController.h"
 
-@interface ImagePreviewController : UIViewController
+@interface ImagePreviewController : UIViewController <ImageEditDelegate>
 {
     NSMutableArray *_arrayOfImages;
 }

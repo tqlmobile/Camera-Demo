@@ -29,6 +29,12 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -45,14 +51,9 @@
     [self.delegate takePicture];
 }
 
-- (IBAction)Done:(id)sender
-{
-    [self.delegate done];
-}
 - (void)viewDidUnload {
     [self setPicturesTakenLabel:nil];
     [self setCancelButton:nil];
-    [self setDoneButton:nil];
     [super viewDidUnload];
 }
 @end

@@ -24,7 +24,6 @@
 		3DE25E2016D3C68100B5721A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E1F16D3C68100B5721A /* Default@2x.png */; };
 		3DE25E2516D3C68100B5721A /* CameraDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E2416D3C68100B5721A /* CameraDemoViewController.m */; };
 		3DE25E2816D3C68100B5721A /* CameraDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E2616D3C68100B5721A /* CameraDemoViewController.xib */; };
-		3DE25E3316D3FCBF00B5721A /* Apple-Logo_51.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E3216D3FCBF00B5721A /* Apple-Logo_51.jpg */; };
 		3DE25E3616D4001200B5721A /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3416D4001200B5721A /* CoreImage.framework */; };
 		3DE25E3716D4001200B5721A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3516D4001200B5721A /* ImageIO.framework */; };
 		3DE25E3B16D4077C00B5721A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3A16D4077C00B5721A /* AssetsLibrary.framework */; };
@@ -32,9 +31,7 @@
 		3DE25E4D16D67BA900B5721A /* ProcessDocsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */; };
 		3DE25E4F16D6845200B5721A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E4E16D6845200B5721A /* QuartzCore.framework */; };
 		3DE25E5116D684E600B5721A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E5016D684E600B5721A /* MessageUI.framework */; };
-		3DE25E5316D69D7200B5721A /* example.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E5216D69D7200B5721A /* example.jpg */; };
 		3DE25E5616D69FFE00B5721A /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E5516D69FFE00B5721A /* Base64.m */; };
-		3DE25E6916D6A58700B5721A /* Delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E6816D6A58700B5721A /* Delete.png */; };
 		3DE25E6B16D6A68200B5721A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E6A16D6A68200B5721A /* CFNetwork.framework */; };
 		3DE25E6D16D6A69700B5721A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E6C16D6A69700B5721A /* SystemConfiguration.framework */; };
 		3DE25E6F16D6A6A400B5721A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E6E16D6A6A400B5721A /* MobileCoreServices.framework */; };
@@ -49,10 +46,18 @@
 		3DE25E9016D6A72500B5721A /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E8716D6A72500B5721A /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3DE25E9716D6A95C00B5721A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E9616D6A95C00B5721A /* Reachability.m */; };
 		3DE25E9D16D6B1E400B5721A /* SoapMessage.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E9C16D6B1E400B5721A /* SoapMessage.plist */; };
-		3DE25E9F16D6B52500B5721A /* tqltrax.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E9E16D6B52500B5721A /* tqltrax.pdf */; };
 		3DF1C5CB16DBB36F0054C150 /* OpenCV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */; };
 		3DF1C5CD16DBB3B20054C150 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */; };
 		3DF1C5EA16DBDF6D0054C150 /* CropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C5E916DBDF6D0054C150 /* CropView.m */; };
+		3DF1C61116DD54290054C150 /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DF1C60216DD54290054C150 /* 11-x.png */; };
+		3DF1C61216DD54290054C150 /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DF1C60316DD54290054C150 /* 19-check.png */; };
+		3DF1C61316DD54290054C150 /* ATMHud.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C60516DD54290054C150 /* ATMHud.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61416DD54290054C150 /* ATMHudQueueItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C60816DD54290054C150 /* ATMHudQueueItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61516DD54290054C150 /* ATMHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C60A16DD54290054C150 /* ATMHudView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61616DD54290054C150 /* ATMProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C60C16DD54290054C150 /* ATMProgressLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61816DD54290054C150 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C61016DD54290054C150 /* ATMTextLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61B16DD55BA0054C150 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C61A16DD55BA0054C150 /* ATMSoundFX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		3DF1C61D16DD55D10054C150 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C61C16DD55D10054C150 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,7 +87,6 @@
 		3DE25E2316D3C68100B5721A /* CameraDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraDemoViewController.h; sourceTree = "<group>"; };
 		3DE25E2416D3C68100B5721A /* CameraDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraDemoViewController.m; sourceTree = "<group>"; };
 		3DE25E2716D3C68100B5721A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CameraDemoViewController.xib; sourceTree = "<group>"; };
-		3DE25E3216D3FCBF00B5721A /* Apple-Logo_51.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Apple-Logo_51.jpg"; sourceTree = "<group>"; };
 		3DE25E3416D4001200B5721A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3DE25E3516D4001200B5721A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3DE25E3A16D4077C00B5721A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -91,10 +95,8 @@
 		3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProcessDocsViewController.xib; sourceTree = "<group>"; };
 		3DE25E4E16D6845200B5721A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DE25E5016D684E600B5721A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		3DE25E5216D69D7200B5721A /* example.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = example.jpg; sourceTree = "<group>"; };
 		3DE25E5416D69FFE00B5721A /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64.h; path = CameraDemo/Base64.h; sourceTree = "<group>"; };
 		3DE25E5516D69FFE00B5721A /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64.m; path = CameraDemo/Base64.m; sourceTree = "<group>"; };
-		3DE25E6816D6A58700B5721A /* Delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Delete.png; sourceTree = "<group>"; };
 		3DE25E6A16D6A68200B5721A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		3DE25E6C16D6A69700B5721A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		3DE25E6E16D6A6A400B5721A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -122,11 +124,26 @@
 		3DE25E9516D6A95C00B5721A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		3DE25E9616D6A95C00B5721A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		3DE25E9C16D6B1E400B5721A /* SoapMessage.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoapMessage.plist; sourceTree = "<group>"; };
-		3DE25E9E16D6B52500B5721A /* tqltrax.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tqltrax.pdf; sourceTree = "<group>"; };
 		3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenCV.framework; sourceTree = "<group>"; };
 		3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3DF1C5E816DBDF6D0054C150 /* CropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CropView.h; sourceTree = "<group>"; };
 		3DF1C5E916DBDF6D0054C150 /* CropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CropView.m; sourceTree = "<group>"; };
+		3DF1C60216DD54290054C150 /* 11-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x.png"; sourceTree = "<group>"; };
+		3DF1C60316DD54290054C150 /* 19-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check.png"; sourceTree = "<group>"; };
+		3DF1C60416DD54290054C150 /* ATMHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHud.h; sourceTree = "<group>"; };
+		3DF1C60516DD54290054C150 /* ATMHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHud.m; sourceTree = "<group>"; };
+		3DF1C60616DD54290054C150 /* ATMHudDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudDelegate.h; sourceTree = "<group>"; };
+		3DF1C60716DD54290054C150 /* ATMHudQueueItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudQueueItem.h; sourceTree = "<group>"; };
+		3DF1C60816DD54290054C150 /* ATMHudQueueItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudQueueItem.m; sourceTree = "<group>"; };
+		3DF1C60916DD54290054C150 /* ATMHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMHudView.h; sourceTree = "<group>"; };
+		3DF1C60A16DD54290054C150 /* ATMHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMHudView.m; sourceTree = "<group>"; };
+		3DF1C60B16DD54290054C150 /* ATMProgressLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMProgressLayer.h; sourceTree = "<group>"; };
+		3DF1C60C16DD54290054C150 /* ATMProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMProgressLayer.m; sourceTree = "<group>"; };
+		3DF1C60F16DD54290054C150 /* ATMTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMTextLayer.h; sourceTree = "<group>"; };
+		3DF1C61016DD54290054C150 /* ATMTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMTextLayer.m; sourceTree = "<group>"; };
+		3DF1C61916DD55BA0054C150 /* ATMSoundFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMSoundFX.h; sourceTree = "<group>"; };
+		3DF1C61A16DD55BA0054C150 /* ATMSoundFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMSoundFX.m; sourceTree = "<group>"; };
+		3DF1C61C16DD55D10054C150 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DF1C61D16DD55D10054C150 /* AudioToolbox.framework in Frameworks */,
 				3DF1C5CD16DBB3B20054C150 /* AVFoundation.framework in Frameworks */,
 				3DE25E7116D6A6BC00B5721A /* libz.dylib in Frameworks */,
 				3DE25E1016D3C68100B5721A /* CoreGraphics.framework in Frameworks */,
@@ -187,6 +205,7 @@
 		3DE25E0A16D3C68100B5721A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3DF1C61C16DD55D10054C150 /* AudioToolbox.framework */,
 				3DF1C5CC16DBB3B20054C150 /* AVFoundation.framework */,
 				3DF1C5CA16DBB36F0054C150 /* OpenCV.framework */,
 				3DE25E7016D6A6BB00B5721A /* libz.dylib */,
@@ -231,11 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				0E9C8B4B16D54A8600BB12EF /* xib */,
-				3DE25E9E16D6B52500B5721A /* tqltrax.pdf */,
-				3DE25E5216D69D7200B5721A /* example.jpg */,
-				3DE25E6816D6A58700B5721A /* Delete.png */,
 				0E9C8B4416D53F6300BB12EF /* camera_overlay.png */,
-				3DE25E3216D3FCBF00B5721A /* Apple-Logo_51.jpg */,
 				3DE25E1316D3C68100B5721A /* CameraDemo-Info.plist */,
 				3DE25E1416D3C68100B5721A /* InfoPlist.strings */,
 				3DE25E1716D3C68100B5721A /* main.m */,
@@ -251,6 +266,7 @@
 		3DE25E7216D6A6E500B5721A /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3DF1C60016DD54050054C150 /* ATMHud */,
 				3DE25E7416D6A6F500B5721A /* Base64 */,
 				3DE25E7316D6A6ED00B5721A /* ASIHTTPRequest */,
 			);
@@ -293,6 +309,28 @@
 				3DE25E5516D69FFE00B5721A /* Base64.m */,
 			);
 			name = Base64;
+			sourceTree = "<group>";
+		};
+		3DF1C60016DD54050054C150 /* ATMHud */ = {
+			isa = PBXGroup;
+			children = (
+				3DF1C61916DD55BA0054C150 /* ATMSoundFX.h */,
+				3DF1C61A16DD55BA0054C150 /* ATMSoundFX.m */,
+				3DF1C60216DD54290054C150 /* 11-x.png */,
+				3DF1C60316DD54290054C150 /* 19-check.png */,
+				3DF1C60416DD54290054C150 /* ATMHud.h */,
+				3DF1C60516DD54290054C150 /* ATMHud.m */,
+				3DF1C60616DD54290054C150 /* ATMHudDelegate.h */,
+				3DF1C60716DD54290054C150 /* ATMHudQueueItem.h */,
+				3DF1C60816DD54290054C150 /* ATMHudQueueItem.m */,
+				3DF1C60916DD54290054C150 /* ATMHudView.h */,
+				3DF1C60A16DD54290054C150 /* ATMHudView.m */,
+				3DF1C60B16DD54290054C150 /* ATMProgressLayer.h */,
+				3DF1C60C16DD54290054C150 /* ATMProgressLayer.m */,
+				3DF1C60F16DD54290054C150 /* ATMTextLayer.h */,
+				3DF1C61016DD54290054C150 /* ATMTextLayer.m */,
+			);
+			name = ATMHud;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,16 +389,14 @@
 				3DE25E1E16D3C68100B5721A /* Default.png in Resources */,
 				3DE25E2016D3C68100B5721A /* Default@2x.png in Resources */,
 				3DE25E2816D3C68100B5721A /* CameraDemoViewController.xib in Resources */,
-				3DE25E3316D3FCBF00B5721A /* Apple-Logo_51.jpg in Resources */,
 				0E9C8B4116D52AF600BB12EF /* CameraDemoOverlayViewController.xib in Resources */,
 				0E9C8B4516D53F6300BB12EF /* camera_overlay.png in Resources */,
 				3D0C817116D5D0A5004A9D92 /* ImagePreviewController.xib in Resources */,
 				3D0C817616D5D63C004A9D92 /* ImageEditController.xib in Resources */,
 				3DE25E4D16D67BA900B5721A /* ProcessDocsViewController.xib in Resources */,
-				3DE25E5316D69D7200B5721A /* example.jpg in Resources */,
-				3DE25E6916D6A58700B5721A /* Delete.png in Resources */,
 				3DE25E9D16D6B1E400B5721A /* SoapMessage.plist in Resources */,
-				3DE25E9F16D6B52500B5721A /* tqltrax.pdf in Resources */,
+				3DF1C61116DD54290054C150 /* 11-x.png in Resources */,
+				3DF1C61216DD54290054C150 /* 19-check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +425,12 @@
 				3DE25E9016D6A72500B5721A /* ASINetworkQueue.m in Sources */,
 				3DE25E9716D6A95C00B5721A /* Reachability.m in Sources */,
 				3DF1C5EA16DBDF6D0054C150 /* CropView.m in Sources */,
+				3DF1C61316DD54290054C150 /* ATMHud.m in Sources */,
+				3DF1C61416DD54290054C150 /* ATMHudQueueItem.m in Sources */,
+				3DF1C61516DD54290054C150 /* ATMHudView.m in Sources */,
+				3DF1C61616DD54290054C150 /* ATMProgressLayer.m in Sources */,
+				3DF1C61816DD54290054C150 /* ATMTextLayer.m in Sources */,
+				3DF1C61B16DD55BA0054C150 /* ATMSoundFX.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,12 @@
 //
 
 #import "ImagePreviewController.h"
-#import "ImageEditController.h"
 #import "ProcessDocsViewController.h"
 
 @interface ImagePreviewController ()
+{
+    ImageEditController *iec;
+}
 
 @end
 
@@ -41,6 +43,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = FALSE;
+    self.navigationItem.hidesBackButton = TRUE;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -53,6 +56,7 @@
     [super viewDidLoad];
     self.title = @"Current Documents";
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -139,15 +143,22 @@
     return YES;
 }
 
+-(void)addAnotherPage:(NSMutableArray *)imagesArray
+{
+    [self.imagesTableView reloadData];
+    [iec dismissModalViewControllerAnimated:TRUE];
+}
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    ImageEditController *iec = [ImageEditController new];
+    iec = [ImageEditController new];
+    iec.delegate = self;
     [iec setDisplayImage:[self.arrayOfImages objectAtIndex:indexPath.row]];
-    [self.navigationController pushViewController:iec animated:TRUE];
+    [iec setImagesArray:self.arrayOfImages];
+    [self.navigationController presentModalViewController:iec animated:TRUE];
 }
 
 - (void)viewDidUnload {

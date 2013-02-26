@@ -13,7 +13,6 @@
 
 -(void)cancel;
 -(void)takePicture;
--(void)done;
 
 @end
 
@@ -22,12 +21,8 @@
 @property (nonatomic, unsafe_unretained) id <CameraOverlayDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *picturesTakenLabel;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
-
 
 - (IBAction)cancelButton:(id)sender;
 - (IBAction)takePicture:(id)sender;
-- (IBAction)Done:(id)sender;
-
 
 @end

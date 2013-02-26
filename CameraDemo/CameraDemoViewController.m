@@ -7,11 +7,11 @@
 //
 
 #import "CameraDemoViewController.h"
-#import "ImageEditController.h"
 
 @interface CameraDemoViewController ()
 {
     CIContext *context;
+    ImageEditController *vc;
 }
 @end
 
@@ -26,6 +26,7 @@
                                    style: UIBarButtonItemStyleBordered
                                    target: nil action: nil];
     [self.navigationItem setBackBarButtonItem: backButton];
+    self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
 }
 
 - (void)viewDidLoad
@@ -81,7 +82,7 @@
     self.cameraUI.allowsEditing = YES;
     self.cameraUI.showsCameraControls = NO;
     self.cameraUI.delegate = self;
-    //self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
@@ -103,11 +104,6 @@
     [self dismissModalViewControllerAnimated:TRUE];
 }
 
--(void)done
-{
-    [self.cameraUI dismissModalViewControllerAnimated:TRUE];
-}
-
 #pragma mark- ImagePicker Delegate Methods
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -122,18 +118,39 @@
     NSLog(@"%@",info);
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-    //[self.picsArray addObject:originalImage];
-    self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self displayImageforEditing:originalImage];
 
 }
 
+-(void)addAnotherPage:(NSMutableArray *)imagesArray
+{
+    self.picsArray = imagesArray;
+    [vc dismissModalViewControllerAnimated:TRUE];
+    
+}
+
+-(void)finishedAddingPages:(NSMutableArray *)imagesArray
+{
+    self.picsArray = imagesArray;
+    [vc dismissModalViewControllerAnimated:FALSE];
+    [self dismissModalViewControllerAnimated:FALSE];
+    ImagePreviewController *pvc = [[ImagePreviewController alloc]init];
+    [pvc setArrayOfImages:self.picsArray];
+    [self.navigationController pushViewController:pvc animated:TRUE];
+    
+    
+}
+
 -(void)displayImageforEditing:(UIImage *)image 
 {
-    ImageEditController *vc = [[ImageEditController alloc]init];
+    vc = [[ImageEditController alloc]init];
+    vc.delegate = self;
     [vc setDisplayImage:image];
-    [self.cameraUI pushViewController:vc animated:TRUE];
+    [vc setImagesArray:self.picsArray];
+    [self.cameraUI presentModalViewController:vc animated:TRUE];
 }
+
+
 
 - (void)viewDidUnload {
     [self setOpenPhotosButton:nil];
