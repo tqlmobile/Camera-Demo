@@ -128,6 +128,7 @@
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
  {
      [self.arrayOfImages exchangeObjectAtIndex:fromIndexPath.row withObjectAtIndex:toIndexPath.row];
+     [self.imagesTableView reloadData];
 }
 // Override to support rearranging the table view.
 

@@ -14,7 +14,6 @@
 
 @property (nonatomic, strong) UIImage *displayImage;
 @property (weak, nonatomic) IBOutlet UIImageView *imageToEdit;
-@property (nonatomic, strong) NSMutableArray *picsArray;
 @property (nonatomic, strong) CropView *cropView;
 
 

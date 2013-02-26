@@ -39,17 +39,6 @@
     return self;
 }
 
--(NSMutableArray *)picsArray
-{
-    if (_picsArray == nil)
-    {
-        _picsArray = [[NSMutableArray alloc]init];
-    }
-    return _picsArray;
-}
-
-
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -129,6 +118,7 @@
     if (!isResizingUL && !isResizingLR && !isResizingUR && !isResizingLL) {
         self.cropView.center = CGPointMake(self.cropView.center.x + touchPoint.x - touchStart.x,self.cropView.center.y + touchPoint.y - touchStart.y);
     }
+    NSLog(@"Crop View Dimensions: X:%f Y:%f W:%f H:%f",self.cropView.frame.origin.x,self.cropView.frame.origin.y,self.cropView.frame.size.width,self.cropView.frame.size.height);
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -139,28 +129,56 @@
 
 -(void)cropImage
 {
+    
+    NSLog(@"Original Image size: W:%f H:%f",self.displayImage.size.width, self.displayImage.size.height);
+    CGSize size;
+    size.width = 320;
+    size.height = 416;
+    self.displayImage = [self imageWithImage:self.displayImage scaledToSize:size];
+    NSLog(@"Scaled Image size: W:%f H:%f",self.displayImage.size.width, self.displayImage.size.height);
+    
     NSMutableDictionary *options = [[NSMutableDictionary alloc]init];
     [options setValue:NULL forKey:kCIImageColorSpace];
     CIImage *beginImage = [CIImage imageWithCGImage:_displayImage.CGImage options:options];
     CIFilter *cropFilter = [CIFilter filterWithName:@"CICrop"];
     [cropFilter setDefaults];
     [cropFilter setValue:beginImage forKey:@"inputImage"];
-    [cropFilter setValue:[CIVector vectorWithX:self.cropView.frame.origin.x Y:self.cropView.frame.origin.y Z:self.cropView.frame.size.width W:self.cropView.frame.size.height] forKey:@"inputRectangle"];
+    //CGRect rect = CGRectMake(24, 72 ,271,334);
+    CGRect rect = CGRectMake(self.cropView.frame.origin.x, self.cropView.frame.origin.y ,self.cropView.frame.size.width,self.cropView.frame.size.height);
+    [cropFilter setValue:[CIVector vectorWithCGRect:rect] forKey:@"inputRectangle"];
     CIImage *outputImage = [cropFilter outputImage];
     CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
     UIImage *newImage = [UIImage imageWithCGImage:cgimg];
-    self.imageToEdit.image = newImage;
-    [self.picsArray addObject:newImage];
+    self.displayImage = newImage;
     CGImageRelease(cgimg);
+    [self showAllImages];
+    
+    // Create bitmap image from original image data,
+    // using rectangle to specify desired crop area
+    /*NSLog(@"Crop View Dimensions: X:%f Y:%f W:%f H:%f",self.cropView.frame.origin.x,self.cropView.frame.origin.y,self.cropView.frame.size.width,self.cropView.frame.size.height);
+    //CGRect rect = CGRectMake(self.cropView.frame.origin.x, self.cropView.frame.origin.y ,self.cropView.frame.size.width,self.cropView.frame.size.height);
+    CGRect rect = CGRectMake(24, 72 ,271,334);
+    CGImageRef imageRef = CGImageCreateWithImageInRect([self.displayImage CGImage], rect);
+    self.displayImage = [UIImage imageWithCGImage:imageRef];
+    
+    CGImageRelease(imageRef);*/
     [self performSelector:@selector(showAllImages)];
-
     
 }
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 
 - (void)showAllImages
 {
     ImagePreviewController *vc = [[ImagePreviewController alloc]init];
-    [vc setArrayOfImages:self.picsArray];
+    [vc.arrayOfImages addObject:self.displayImage];
     [self.navigationController pushViewController:vc animated:TRUE];
     
 }

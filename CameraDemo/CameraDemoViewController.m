@@ -122,7 +122,7 @@
     NSLog(@"%@",info);
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
-    [self.picsArray addObject:originalImage];
+    //[self.picsArray addObject:originalImage];
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self displayImageforEditing:originalImage];
 
@@ -131,7 +131,6 @@
 -(void)displayImageforEditing:(UIImage *)image 
 {
     ImageEditController *vc = [[ImageEditController alloc]init];
-    [vc setPicsArray:self.picsArray];
     [vc setDisplayImage:image];
     [self.cameraUI pushViewController:vc animated:TRUE];
 }
