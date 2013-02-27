@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ImageEditController.h"
 
-@interface ImagePreviewController : UIViewController <ImageEditDelegate>
+@interface ImagePreviewController : UIViewController <ImageEditDelegate, UIAlertViewDelegate>
 {
     NSMutableArray *_arrayOfImages;
 }
@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *imagesTableView;
 - (IBAction)processDocuments:(id)sender;
-
+- (IBAction)addAnotherPage:(id)sender;
+- (IBAction)cancelButton:(id)sender;
 
 @end

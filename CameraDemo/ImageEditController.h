@@ -26,6 +26,7 @@
 @property (nonatomic, strong) CropView *cropView;
 @property (nonatomic, unsafe_unretained) id<ImageEditDelegate> delegate;
 @property (nonatomic, strong) ATMHud *hud;
+@property (nonatomic, assign) BOOL isEditing;
 
 - (IBAction)cropImage:(id)sender;
 - (IBAction)retakeButton:(id)sender;

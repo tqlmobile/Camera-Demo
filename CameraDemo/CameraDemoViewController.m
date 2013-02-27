@@ -32,6 +32,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dismissCamera)
+                                                 name:@"DismissCamera"
+                                               object:nil];
+    
 	self.cameraUI = [[UIImagePickerController alloc] init];
     self.overlay = [[CameraDemoOverlayViewController alloc]init];
     self.overlay.delegate = self;
@@ -42,6 +48,11 @@
         NSLog(@"%@",filterName);
         NSLog(@"%@",[cifltr attributes]);
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 -(ImagePreviewController *)imagePreview
@@ -57,6 +68,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dismissCamera
+{
+    [self.picsArray removeAllObjects];
+    [self dismissViewControllerAnimated:TRUE completion:nil];
 }
 
 -(NSMutableArray *)picsArray
@@ -133,10 +150,9 @@
 {
     self.picsArray = imagesArray;
     [vc dismissModalViewControllerAnimated:FALSE];
-    [self dismissModalViewControllerAnimated:FALSE];
     ImagePreviewController *pvc = [[ImagePreviewController alloc]init];
     [pvc setArrayOfImages:self.picsArray];
-    [self.navigationController pushViewController:pvc animated:TRUE];
+    [self.cameraUI pushViewController:pvc animated:TRUE];
     
     
 }

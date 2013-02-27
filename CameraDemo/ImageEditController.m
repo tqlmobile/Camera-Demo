@@ -151,7 +151,7 @@
 
 - (IBAction)retakeButton:(id)sender
 {
-    
+    [self dismissViewControllerAnimated:TRUE completion:nil];
 }
 - (IBAction)closeButton:(id)sender
 {
@@ -167,10 +167,9 @@
     CGRect rect = CGRectMake((self.cropView.frame.origin.x*scaleX), (self.cropView.frame.origin.y*scaleY),(self.displayImage.size.width*scaleWidth),(self.displayImage.size.height*scaleHeight));
     UIImage *image = [self rotate:self.displayImage andOrientation:UIImageOrientationUp];
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
-    self.displayImage = [UIImage imageWithCGImage:imageRef];
-    self.imageToEdit.image = self.displayImage;
-    
-    [self.imagesArray addObject:self.displayImage];
+    UIImage *outputImage = [UIImage imageWithCGImage:imageRef];
+    self.imageToEdit.image = outputImage;
+    [self.imagesArray addObject:outputImage];
     [self.hud hide];
     [self performSelector:@selector(AddAnotherPage)];
 }
@@ -200,19 +199,38 @@
 
 -(void)AddAnotherPage
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:@"Add another document"
-                                  delegate:self
-                                  cancelButtonTitle:nil
-                                  destructiveButtonTitle:@"Finished"
-                                  otherButtonTitles:@"Add Another Page", nil];
-    [actionSheet showInView:self.view];
+    if (!self.isEditing)
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:@"Add another document"
+                                      delegate:self
+                                      cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Finished"
+                                      otherButtonTitles:@"Add Another Page", nil];
+        [actionSheet showInView:self.view];
+    }
+    else
+    {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:@"Edit Image"
+                                      delegate:self
+                                      cancelButtonTitle:nil
+                                      destructiveButtonTitle:@"Finished"
+                                      otherButtonTitles:nil];
+        [actionSheet showInView:self.view];
+    }
+    
 
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+
     switch (buttonIndex) {
+        case 2:
+            [self.imagesArray removeObjectAtIndex:([self.imagesArray count])-1];
+            self.imageToEdit.image = self.displayImage;
+            break;
         case 0:
             [self.delegate finishedAddingPages:self.imagesArray];
             break;

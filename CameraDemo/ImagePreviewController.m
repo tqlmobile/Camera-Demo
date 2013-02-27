@@ -73,6 +73,32 @@
     [self.navigationController pushViewController:vc animated:TRUE];
 }
 
+- (IBAction)addAnotherPage:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
+
+- (IBAction)cancelButton:(id)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Cancel Document" message:@"Are you sure you want to cancel this docuement. You will lose all saved images." delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"Yes, Cancel", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 1:
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:@"DismissCamera"
+             object:self];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -143,10 +169,15 @@
     return YES;
 }
 
--(void)addAnotherPage:(NSMutableArray *)imagesArray
+
+-(void)finishedAddingPages:(NSMutableArray *)imagesArray
 {
+    int row = [[self.imagesTableView indexPathForSelectedRow]row];
+    [self.arrayOfImages exchangeObjectAtIndex:row withObjectAtIndex:([self.arrayOfImages count]-1)];
+    [self.arrayOfImages removeObjectAtIndex:([self.arrayOfImages count]-1)];
     [self.imagesTableView reloadData];
     [iec dismissModalViewControllerAnimated:TRUE];
+    
 }
 
 #pragma mark - Table view delegate
@@ -156,12 +187,14 @@
 
     iec = [ImageEditController new];
     iec.delegate = self;
+    [iec setIsEditing:TRUE];
     [iec setDisplayImage:[self.arrayOfImages objectAtIndex:indexPath.row]];
     [iec setImagesArray:self.arrayOfImages];
     [self.navigationController presentModalViewController:iec animated:TRUE];
 }
 
 - (void)viewDidUnload {
+    
     [super viewDidUnload];
 }
 
