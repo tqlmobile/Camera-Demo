@@ -18,6 +18,8 @@
     CGSize _pageSize;
     int pageNumber;
     CIContext *context;
+    NSString *pdfPath;
+    NSString *pdfFileName;
     
 }
 @end
@@ -46,7 +48,7 @@
     
     context = [CIContext contextWithOptions:nil];
     [self performSelector:@selector(enhanceImages)];
-    [self setupPDFDocumentNamed:@"ExamplePDF" Width:kPageWidth Height:kPageHeight];
+    [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
     for (UIImage *image in _allDocsArray)
     {
@@ -76,19 +78,20 @@
         NSMutableDictionary *options = [[NSMutableDictionary alloc]init];
         [options setValue:NULL forKey:kCIImageColorSpace];
         CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:options];
-        //CIImage *outputImage = nil;
-        CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil].outputImage;
-        CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, blackAndWhite, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;
+        //CIImage *output = nil;
+        /*CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil].outputImage;*/
+        CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, beginImage, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;
         NSArray *adjustments = [beginImage autoAdjustmentFiltersWithOptions:nil];
         NSLog(@"%@",adjustments);
         for (CIFilter *filter in adjustments){
-            [filter setValue:output forKey:kCIInputImageKey];
+            [filter setValue:beginImage forKey:kCIInputImageKey];
             output = filter.outputImage;
         }
         CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
         UIImage *newImage = [UIImage imageWithCGImage:cgimg];
         [self.allDocsArray replaceObjectAtIndex:i withObject:newImage];
         CGImageRelease(cgimg);
+        NSLog(@"Finished");
     }
 }
 
@@ -121,11 +124,29 @@
 - (void)setupPDFDocumentNamed:(NSString*)name Width:(float)width Height:(float)height
 {
     _pageSize = CGSizeMake(width, height);
+    
     NSString *newPDFName = [NSString stringWithFormat:@"%@.pdf", name];
+    //NSString *newPDFName = [self createPDFName];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *pdfPath = [documentsDirectory stringByAppendingPathComponent:newPDFName];
+    pdfPath = [documentsDirectory stringByAppendingPathComponent:newPDFName];
     UIGraphicsBeginPDFContextToFile(pdfPath, CGRectZero, nil);
+}
+
+-(NSString *)createPDFName
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    NSString *formattedDateString = [dateFormatter stringFromDate:date];
+    pdfFileName = [NSString stringWithFormat:@"SamplePDF %@",formattedDateString];
+    pdfFileName = [pdfFileName stringByReplacingOccurrencesOfString:@"," withString:@""];
+    pdfFileName = [pdfFileName stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    pdfFileName = [pdfFileName stringByReplacingOccurrencesOfString:@":" withString:@"t"];
+    pdfFileName = [pdfFileName stringByAppendingFormat:@".pdf"];
+    NSLog(@"%@",pdfFileName);
+    return pdfFileName;
 }
 
 - (void)beginPDFPage {
@@ -152,22 +173,22 @@
 #pragma mark- Send PDF to File Server
 -(void)sendPDF
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *pdfPath = [documentsDirectory stringByAppendingPathComponent:@"ExamplePDF.pdf"];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *pdfPath = [documentsDirectory stringByAppendingPathComponent:@"ExamplePDF.pdf"];
     NSData *data = [NSData dataWithContentsOfFile:pdfPath];
     
     
-    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    /*Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     if ([mailClass canSendMail])
     {
         MFMailComposeViewController *compose = [[MFMailComposeViewController alloc]init];
         compose.mailComposeDelegate = self;
-        [compose addAttachmentData:data mimeType:@"pdf" fileName:@"Example PDF"];
+        [compose addAttachmentData:data mimeType:@"pdf" fileName:pdfFileName];
         [compose setSubject:@"New Example Document"];
         [compose setToRecipients:[NSArray arrayWithObject:@"ctritt@tql.com"]];
         [self presentModalViewController:compose animated:YES];
-    }
+    }*/
     
     
     NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
@@ -178,7 +199,7 @@
     
     NSURL *url = [NSURL URLWithString:@"https://testmobileapps.tql.com/carriers/carriersuite/securemethods.asmx"];
     NSString *soapMessage = [soapDict valueForKey:@"DocumentImaging_UploadDocument_v1_0"];
-    soapMessage = [NSString stringWithFormat:soapMessage,@"ExampleFile.pdf",dataString];
+    soapMessage = [NSString stringWithFormat:soapMessage,[self createPDFName],dataString];
     NSString *msgLength = [NSString stringWithFormat:@"%d",[soapMessage length]];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
