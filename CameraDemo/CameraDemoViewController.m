@@ -99,7 +99,7 @@
     self.cameraUI.allowsEditing = YES;
     self.cameraUI.showsCameraControls = NO;
     self.cameraUI.delegate = self;
-    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
+    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
