@@ -14,6 +14,8 @@
 		3D0C817116D5D0A5004A9D92 /* ImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */; };
 		3D0C817516D5D63C004A9D92 /* ImageEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0C817316D5D63B004A9D92 /* ImageEditController.m */; };
 		3D0C817616D5D63C004A9D92 /* ImageEditController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3D0C817416D5D63B004A9D92 /* ImageEditController.xib */; };
+		3D2D28F716E6680400656E5B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2D28F616E6680400656E5B /* OpenGLES.framework */; };
+		3D2D28FB16E66BB000656E5B /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2D28FA16E66BB000656E5B /* ImageHelper.m */; };
 		3DE25E0C16D3C68100B5721A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0B16D3C68100B5721A /* UIKit.framework */; };
 		3DE25E0E16D3C68100B5721A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0D16D3C68100B5721A /* Foundation.framework */; };
 		3DE25E1016D3C68100B5721A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0F16D3C68100B5721A /* CoreGraphics.framework */; };
@@ -71,6 +73,9 @@
 		3D0C817216D5D63B004A9D92 /* ImageEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEditController.h; sourceTree = "<group>"; };
 		3D0C817316D5D63B004A9D92 /* ImageEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEditController.m; sourceTree = "<group>"; };
 		3D0C817416D5D63B004A9D92 /* ImageEditController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageEditController.xib; sourceTree = "<group>"; };
+		3D2D28F616E6680400656E5B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		3D2D28F916E66BB000656E5B /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
+		3D2D28FA16E66BB000656E5B /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
 		3DE25E0716D3C68100B5721A /* CameraDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DE25E0B16D3C68100B5721A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DE25E0D16D3C68100B5721A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -151,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D2D28F716E6680400656E5B /* OpenGLES.framework in Frameworks */,
 				3DF1C61D16DD55D10054C150 /* AudioToolbox.framework in Frameworks */,
 				3DF1C5CD16DBB3B20054C150 /* AVFoundation.framework in Frameworks */,
 				3DE25E7116D6A6BC00B5721A /* libz.dylib in Frameworks */,
@@ -184,9 +190,19 @@
 			name = xib;
 			sourceTree = "<group>";
 		};
+		3D2D28F816E66B9F00656E5B /* ImageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				3D2D28F916E66BB000656E5B /* ImageHelper.h */,
+				3D2D28FA16E66BB000656E5B /* ImageHelper.m */,
+			);
+			name = ImageHelper;
+			sourceTree = "<group>";
+		};
 		3DE25DFC16D3C68100B5721A = {
 			isa = PBXGroup;
 			children = (
+				3D2D28F616E6680400656E5B /* OpenGLES.framework */,
 				3DE25E7216D6A6E500B5721A /* External */,
 				3DE25E1116D3C68100B5721A /* CameraDemo */,
 				3DE25E0A16D3C68100B5721A /* Frameworks */,
@@ -266,6 +282,7 @@
 		3DE25E7216D6A6E500B5721A /* External */ = {
 			isa = PBXGroup;
 			children = (
+				3D2D28F816E66B9F00656E5B /* ImageHelper */,
 				3DF1C60016DD54050054C150 /* ATMHud */,
 				3DE25E7416D6A6F500B5721A /* Base64 */,
 				3DE25E7316D6A6ED00B5721A /* ASIHTTPRequest */,
@@ -431,6 +448,7 @@
 				3DF1C61616DD54290054C150 /* ATMProgressLayer.m in Sources */,
 				3DF1C61816DD54290054C150 /* ATMTextLayer.m in Sources */,
 				3DF1C61B16DD55BA0054C150 /* ATMSoundFX.m in Sources */,
+				3D2D28FB16E66BB000656E5B /* ImageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +534,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CameraDemo/CameraDemo-Prefix.pch";
 				INFOPLIST_FILE = "CameraDemo/CameraDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -532,7 +550,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CameraDemo/CameraDemo-Prefix.pch";
 				INFOPLIST_FILE = "CameraDemo/CameraDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

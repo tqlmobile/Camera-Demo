@@ -11,7 +11,11 @@
 #define kImageWidth 810
 #define kImageHeight 1060
 
+typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
+
 #import "ProcessDocsViewController.h"
+#import "ImageHelper.h"
+
 
 @interface ProcessDocsViewController ()
 {
@@ -46,7 +50,9 @@
 {
     [super viewDidLoad];
     
-    context = [CIContext contextWithOptions:nil];
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+    [options setObject: [NSNull null] forKey: kCIContextWorkingColorSpace];
+    context = [CIContext contextWithOptions:options];
     [self performSelector:@selector(enhanceImages)];
     [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
@@ -72,19 +78,19 @@
     for (int i = 0; i < [self.allDocsArray count]; i++)
     {
         UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
-        inputImage = [self convertImageToGreyScale:inputImage];
         inputImage = [self imageWithImage:inputImage scaledToSize:newImageSize];
+        //inputImage = [self convertToBW:inputImage];
+        //inputImage = [self convertImageToGreyScale:inputImage];
 
-        NSMutableDictionary *options = [[NSMutableDictionary alloc]init];
-        [options setValue:NULL forKey:kCIImageColorSpace];
-        CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:options];
-        //CIImage *output = nil;
-        /*CIImage *blackAndWhite = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey, beginImage, @"inputBrightness", [NSNumber numberWithFloat:0.0], @"inputContrast", [NSNumber numberWithFloat:1.1], @"inputSaturation", [NSNumber numberWithFloat:0.0], nil].outputImage;*/
-        CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, beginImage, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;
+        
+        CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:nil];
+        
+        /*CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, beginImage, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;*/
+        CIImage *output = [CIFilter filterWithName:@"CIMinimumComponent" keysAndValues:kCIInputImageKey, beginImage, nil].outputImage;
         NSArray *adjustments = [beginImage autoAdjustmentFiltersWithOptions:nil];
         NSLog(@"%@",adjustments);
         for (CIFilter *filter in adjustments){
-            [filter setValue:beginImage forKey:kCIInputImageKey];
+            [filter setValue:output forKey:kCIInputImageKey];
             output = filter.outputImage;
         }
         CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
@@ -111,12 +117,15 @@
     CGContextDrawImage(contextRef, imageRect, [image CGImage]);
     CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
     UIImage *newImage = [UIImage imageWithCGImage:imageRef];
+    
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(contextRef);
     CFRelease(imageRef);
     
     return newImage;
 }
+
+
 
 
 #pragma mark- Begin PDF Conversion
