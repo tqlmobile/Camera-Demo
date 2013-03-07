@@ -79,23 +79,25 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     {
         UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
         inputImage = [self imageWithImage:inputImage scaledToSize:newImageSize];
-        //inputImage = [self convertToBW:inputImage];
-        //inputImage = [self convertImageToGreyScale:inputImage];
-
         
         CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:nil];
         
-        /*CIImage *output = [CIFilter filterWithName:@"CIExposureAdjust" keysAndValues:kCIInputImageKey, beginImage, @"inputEV", [NSNumber numberWithFloat:0.7], nil].outputImage;*/
-        CIImage *output = [CIFilter filterWithName:@"CIMinimumComponent" keysAndValues:kCIInputImageKey, beginImage, nil].outputImage;
         NSArray *adjustments = [beginImage autoAdjustmentFiltersWithOptions:nil];
         NSLog(@"%@",adjustments);
-        for (CIFilter *filter in adjustments){
-            [filter setValue:output forKey:kCIInputImageKey];
-            output = filter.outputImage;
+        //beginImage = [CIFilter filterWithName:@"CICIVibrance" keysAndValues:kCIInputImageKey,beginImage,@"inputAmount", [NSNumber numberWithFloat:1.0], nil].outputImage;
+        
+        
+        /*for (CIFilter *filter in adjustments){
+            [filter setValue:beginImage forKey:kCIInputImageKey];
+            beginImage = filter.outputImage;
         }
-        CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
+        beginImage = [CIFilter filterWithName:@"CIHighlightShadowAdjust" keysAndValues:kCIInputImageKey,beginImage,@"inputHighlightAmount",[NSNumber numberWithFloat:0],@"inputShadowAmount", [NSNumber numberWithFloat:0.5], nil].outputImage;
+        beginImage = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey,beginImage,@"inputContrast", [NSNumber numberWithFloat:2],@"inputBrightness", [NSNumber numberWithFloat:0.2], nil].outputImage;*/
+        CGImageRef cgimg = [context createCGImage:beginImage fromRect:[beginImage extent]];
         UIImage *newImage = [UIImage imageWithCGImage:cgimg];
+        newImage = [self convertImageToBW:newImage];
         [self.allDocsArray replaceObjectAtIndex:i withObject:newImage];
+        //[self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
         CGImageRelease(cgimg);
         NSLog(@"Finished");
     }
@@ -125,7 +127,57 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     return newImage;
 }
 
-
+-(UIImage *)convertImageToBW:(UIImage *)image
+{
+    
+    
+    CGImageRef inImage = image.CGImage;
+    
+    size_t width  = CGImageGetWidth(inImage);
+    size_t height = CGImageGetHeight(inImage);
+    size_t length = width * height * 4;
+    NSMutableArray *pixelValues = [[NSMutableArray alloc]init];
+    unsigned char *pixelBuffer = [ImageHelper convertUIImageToBitmapRGBA8:image];
+    double pixelAvg = 0;
+    int loopCount = 0;
+    for (int index = 0; index < length; index += 4)
+    {
+        
+        CGFloat red   = pixelBuffer[index];
+        CGFloat green = pixelBuffer[index + 1];
+        CGFloat blue  = pixelBuffer[index + 2];
+        CGFloat alpha = pixelBuffer[index + 3];
+        
+        float avg = ((red + green + blue) / 3.0) / 255.0;
+        [pixelValues addObject:[NSNumber numberWithFloat:avg]];
+        
+        const CGFloat THRESHOLD = 0.5;
+        int bw;
+        pixelAvg = pixelAvg + avg;
+        /*if (avg > THRESHOLD)
+        {
+            bw = 255;
+            
+        }
+        else
+        {
+            bw = 0;
+        }*/
+        
+        //pixelBuffer[index] = bw;
+        //pixelBuffer[index + 1] = bw;
+        //pixelBuffer[index + 2] = bw;
+        loopCount++;
+        
+    }
+    NSLog(@"Avg of Pixels: %f", (pixelAvg/loopCount));
+    /*NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: YES];
+    [pixelValues sortUsingDescriptors:[NSArray arrayWithObject: sortOrder]];
+    NSLog(@"Low value: %@", [pixelValues objectAtIndex:0]);
+    NSLog(@"High value: %@", [pixelValues objectAtIndex:499]);*/
+    UIImage *bwImage = [ImageHelper convertBitmapRGBA8ToUIImage:pixelBuffer withWidth:width withHeight:height];
+    return bwImage;
+    }
 
 
 #pragma mark- Begin PDF Conversion
@@ -186,19 +238,6 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     //NSString *documentsDirectory = [paths objectAtIndex:0];
     //NSString *pdfPath = [documentsDirectory stringByAppendingPathComponent:@"ExamplePDF.pdf"];
     NSData *data = [NSData dataWithContentsOfFile:pdfPath];
-    
-    
-    /*Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
-    if ([mailClass canSendMail])
-    {
-        MFMailComposeViewController *compose = [[MFMailComposeViewController alloc]init];
-        compose.mailComposeDelegate = self;
-        [compose addAttachmentData:data mimeType:@"pdf" fileName:pdfFileName];
-        [compose setSubject:@"New Example Document"];
-        [compose setToRecipients:[NSArray arrayWithObject:@"ctritt@tql.com"]];
-        [self presentModalViewController:compose animated:YES];
-    }*/
-    
     
     NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
     NSDictionary *soapDict = [[NSDictionary alloc]initWithContentsOfFile:path];

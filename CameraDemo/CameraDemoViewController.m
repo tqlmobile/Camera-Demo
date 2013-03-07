@@ -42,12 +42,12 @@
     self.overlay = [[CameraDemoOverlayViewController alloc]init];
     self.overlay.delegate = self;
     NSArray *filters = [CIFilter filterNamesInCategory:kCICategoryBuiltIn];
-    /*for (NSString *filterName in filters)
+    for (NSString *filterName in filters)
     {
         CIFilter *cifltr = [CIFilter filterWithName:filterName];
         NSLog(@"%@",filterName);
         NSLog(@"%@",[cifltr attributes]);
-    }*/
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
