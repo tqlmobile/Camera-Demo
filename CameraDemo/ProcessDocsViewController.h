@@ -11,7 +11,7 @@
 #import "ASIHTTPRequest.h"
 #import "Base64.h"
 
-@interface ProcessDocsViewController : UIViewController <MFMailComposeViewControllerDelegate, ASIHTTPRequestDelegate>
+@interface ProcessDocsViewController : UIViewController <ASIHTTPRequestDelegate>
 
 @property (nonatomic, strong) NSMutableArray *allDocsArray;
 

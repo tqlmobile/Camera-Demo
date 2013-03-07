@@ -41,13 +41,7 @@
 	self.cameraUI = [[UIImagePickerController alloc] init];
     self.overlay = [[CameraDemoOverlayViewController alloc]init];
     self.overlay.delegate = self;
-    NSArray *filters = [CIFilter filterNamesInCategory:kCICategoryBuiltIn];
-    for (NSString *filterName in filters)
-    {
-        CIFilter *cifltr = [CIFilter filterWithName:filterName];
-        NSLog(@"%@",filterName);
-        NSLog(@"%@",[cifltr attributes]);
-    }
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -99,7 +93,7 @@
     self.cameraUI.allowsEditing = YES;
     self.cameraUI.showsCameraControls = NO;
     self.cameraUI.delegate = self;
-    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeAuto;
+    self.cameraUI.cameraFlashMode = UIImagePickerControllerCameraFlashModeOn;
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];

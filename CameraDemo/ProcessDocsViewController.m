@@ -15,6 +15,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 
 #import "ProcessDocsViewController.h"
 #import "ImageHelper.h"
+#import "GPUImage.h"
 
 
 @interface ProcessDocsViewController ()
@@ -62,6 +63,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
         pageNumber++;
     }
     [self finishPDF];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,30 +77,16 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     CGSize newImageSize;
     newImageSize.width = 810;
     newImageSize.height = 1060;
-    for (int i = 0; i < [self.allDocsArray count]; i++)
+    int count = [self.allDocsArray count];
+    for (int i = 0; i < count; i++)
     {
-        UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
+        UIImage *inputImage = [self.allDocsArray objectAtIndex:i]; 
         inputImage = [self imageWithImage:inputImage scaledToSize:newImageSize];
-        
-        CIImage *beginImage = [CIImage imageWithCGImage:inputImage.CGImage options:nil];
-        
-        NSArray *adjustments = [beginImage autoAdjustmentFiltersWithOptions:nil];
-        NSLog(@"%@",adjustments);
-        //beginImage = [CIFilter filterWithName:@"CICIVibrance" keysAndValues:kCIInputImageKey,beginImage,@"inputAmount", [NSNumber numberWithFloat:1.0], nil].outputImage;
-        
-        
-        /*for (CIFilter *filter in adjustments){
-            [filter setValue:beginImage forKey:kCIInputImageKey];
-            beginImage = filter.outputImage;
-        }
-        beginImage = [CIFilter filterWithName:@"CIHighlightShadowAdjust" keysAndValues:kCIInputImageKey,beginImage,@"inputHighlightAmount",[NSNumber numberWithFloat:0],@"inputShadowAmount", [NSNumber numberWithFloat:0.5], nil].outputImage;
-        beginImage = [CIFilter filterWithName:@"CIColorControls" keysAndValues:kCIInputImageKey,beginImage,@"inputContrast", [NSNumber numberWithFloat:2],@"inputBrightness", [NSNumber numberWithFloat:0.2], nil].outputImage;*/
-        CGImageRef cgimg = [context createCGImage:beginImage fromRect:[beginImage extent]];
-        UIImage *newImage = [UIImage imageWithCGImage:cgimg];
-        newImage = [self convertImageToBW:newImage];
-        [self.allDocsArray replaceObjectAtIndex:i withObject:newImage];
+        GPUImageAdaptiveThresholdFilter *adaptiveThreshFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+        inputImage = [adaptiveThreshFilter imageByFilteringImage:inputImage];
         //[self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
-        CGImageRelease(cgimg);
+        [self.allDocsArray addObject:inputImage];
+       
         NSLog(@"Finished");
     }
 }
@@ -111,74 +99,6 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     return newImage;
 }
 
--(UIImage *)convertImageToGreyScale:(UIImage *)image
-{
-    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
-    CGContextRef contextRef = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
-    CGContextDrawImage(contextRef, imageRect, [image CGImage]);
-    CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
-    UIImage *newImage = [UIImage imageWithCGImage:imageRef];
-    
-    CGColorSpaceRelease(colorSpace);
-    CGContextRelease(contextRef);
-    CFRelease(imageRef);
-    
-    return newImage;
-}
-
--(UIImage *)convertImageToBW:(UIImage *)image
-{
-    
-    
-    CGImageRef inImage = image.CGImage;
-    
-    size_t width  = CGImageGetWidth(inImage);
-    size_t height = CGImageGetHeight(inImage);
-    size_t length = width * height * 4;
-    NSMutableArray *pixelValues = [[NSMutableArray alloc]init];
-    unsigned char *pixelBuffer = [ImageHelper convertUIImageToBitmapRGBA8:image];
-    double pixelAvg = 0;
-    int loopCount = 0;
-    for (int index = 0; index < length; index += 4)
-    {
-        
-        CGFloat red   = pixelBuffer[index];
-        CGFloat green = pixelBuffer[index + 1];
-        CGFloat blue  = pixelBuffer[index + 2];
-        CGFloat alpha = pixelBuffer[index + 3];
-        
-        float avg = ((red + green + blue) / 3.0) / 255.0;
-        [pixelValues addObject:[NSNumber numberWithFloat:avg]];
-        
-        const CGFloat THRESHOLD = 0.5;
-        int bw;
-        pixelAvg = pixelAvg + avg;
-        /*if (avg > THRESHOLD)
-        {
-            bw = 255;
-            
-        }
-        else
-        {
-            bw = 0;
-        }*/
-        
-        //pixelBuffer[index] = bw;
-        //pixelBuffer[index + 1] = bw;
-        //pixelBuffer[index + 2] = bw;
-        loopCount++;
-        
-    }
-    NSLog(@"Avg of Pixels: %f", (pixelAvg/loopCount));
-    /*NSSortDescriptor* sortOrder = [NSSortDescriptor sortDescriptorWithKey: @"self" ascending: YES];
-    [pixelValues sortUsingDescriptors:[NSArray arrayWithObject: sortOrder]];
-    NSLog(@"Low value: %@", [pixelValues objectAtIndex:0]);
-    NSLog(@"High value: %@", [pixelValues objectAtIndex:499]);*/
-    UIImage *bwImage = [ImageHelper convertBitmapRGBA8ToUIImage:pixelBuffer withWidth:width withHeight:height];
-    return bwImage;
-    }
-
 
 #pragma mark- Begin PDF Conversion
 
@@ -187,7 +107,6 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     _pageSize = CGSizeMake(width, height);
     
     NSString *newPDFName = [NSString stringWithFormat:@"%@.pdf", name];
-    //NSString *newPDFName = [self createPDFName];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     pdfPath = [documentsDirectory stringByAppendingPathComponent:newPDFName];
@@ -220,6 +139,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 
 - (void)finishPDF {
     UIGraphicsEndPDFContext();
+    
 }
 
 #pragma mark- Add a PDF Page
@@ -234,11 +154,8 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 #pragma mark- Send PDF to File Server
 -(void)sendPDF
 {
-    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    //NSString *documentsDirectory = [paths objectAtIndex:0];
-    //NSString *pdfPath = [documentsDirectory stringByAppendingPathComponent:@"ExamplePDF.pdf"];
-    NSData *data = [NSData dataWithContentsOfFile:pdfPath];
     
+    NSData *data = [NSData dataWithContentsOfFile:pdfPath];
     NSString *path = [[NSBundle mainBundle]pathForResource:@"SoapMessage" ofType:@"plist"];
     NSDictionary *soapDict = [[NSDictionary alloc]initWithContentsOfFile:path];
    
@@ -267,19 +184,25 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     // Use when fetching text data
     NSString *responseString = [request responseString];
     NSLog(@"%@",responseString);
+    
+    //Remove files from Library directory
+    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *pdfFile = [documentsDirectory stringByAppendingPathComponent:@"SamplePDF.pdf"];
+    BOOL fileExists = [self fileExistsAtAbsolutePath:pdfFile];
+    NSLog(@"File Exists %@", fileExists ? @"True" : @"False");*/
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
+    NSLog(@"%@",error);
 }
 
-#pragma mark- MailComposerViewController Delegate Method
--(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+-(BOOL)fileExistsAtAbsolutePath:(NSString*)filename {
+    BOOL isDirectory;
+    BOOL fileExistsAtPath = [[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDirectory];
     
-    [self dismissModalViewControllerAnimated:YES];
-    
+    return fileExistsAtPath && !isDirectory;
 }
-
-
 @end
