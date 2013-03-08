@@ -19,6 +19,7 @@
 		3D580A5F16E8D6EC007383F1 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D580A5A16E8D2AE007383F1 /* libGPUImage.a */; };
 		3D580A6116E8D80F007383F1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D580A6016E8D80F007383F1 /* CoreMedia.framework */; };
 		3D580A6316E8D81C007383F1 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D580A6216E8D81C007383F1 /* CoreVideo.framework */; };
+		3D86517116EA274C005A1C87 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D86517016EA274C005A1C87 /* opencv2.framework */; };
 		3DE25E0C16D3C68100B5721A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0B16D3C68100B5721A /* UIKit.framework */; };
 		3DE25E0E16D3C68100B5721A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0D16D3C68100B5721A /* Foundation.framework */; };
 		3DE25E1016D3C68100B5721A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E0F16D3C68100B5721A /* CoreGraphics.framework */; };
@@ -32,7 +33,7 @@
 		3DE25E3616D4001200B5721A /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3416D4001200B5721A /* CoreImage.framework */; };
 		3DE25E3716D4001200B5721A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3516D4001200B5721A /* ImageIO.framework */; };
 		3DE25E3B16D4077C00B5721A /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E3A16D4077C00B5721A /* AssetsLibrary.framework */; };
-		3DE25E4C16D67BA900B5721A /* ProcessDocsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.m */; };
+		3DE25E4C16D67BA900B5721A /* ProcessDocsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.mm */; };
 		3DE25E4D16D67BA900B5721A /* ProcessDocsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */; };
 		3DE25E4F16D6845200B5721A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E4E16D6845200B5721A /* QuartzCore.framework */; };
 		3DE25E5116D684E600B5721A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DE25E5016D684E600B5721A /* MessageUI.framework */; };
@@ -105,6 +106,7 @@
 		3D580A5316E8D2AD007383F1 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = "../iOS/External Frameworks/GPUImage-master/framework/GPUImage.xcodeproj"; sourceTree = "<group>"; };
 		3D580A6016E8D80F007383F1 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3D580A6216E8D81C007383F1 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		3D86517016EA274C005A1C87 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		3DE25E0716D3C68100B5721A /* CameraDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DE25E0B16D3C68100B5721A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DE25E0D16D3C68100B5721A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -125,7 +127,7 @@
 		3DE25E3516D4001200B5721A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3DE25E3A16D4077C00B5721A /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		3DE25E4916D67BA900B5721A /* ProcessDocsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessDocsViewController.h; sourceTree = "<group>"; };
-		3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessDocsViewController.m; sourceTree = "<group>"; };
+		3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProcessDocsViewController.mm; sourceTree = "<group>"; };
 		3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProcessDocsViewController.xib; sourceTree = "<group>"; };
 		3DE25E4E16D6845200B5721A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DE25E5016D684E600B5721A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -202,6 +204,7 @@
 				3DE25E3716D4001200B5721A /* ImageIO.framework in Frameworks */,
 				3DE25E0C16D3C68100B5721A /* UIKit.framework in Frameworks */,
 				3DE25E0E16D3C68100B5721A /* Foundation.framework in Frameworks */,
+				3D86517116EA274C005A1C87 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +263,7 @@
 		3DE25E0A16D3C68100B5721A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D86517016EA274C005A1C87 /* opencv2.framework */,
 				3D580A6216E8D81C007383F1 /* CoreVideo.framework */,
 				3D580A6016E8D80F007383F1 /* CoreMedia.framework */,
 				3D2D28F616E6680400656E5B /* OpenGLES.framework */,
@@ -295,7 +299,7 @@
 				3D0C816D16D5D0A4004A9D92 /* ImagePreviewController.h */,
 				3D0C816E16D5D0A4004A9D92 /* ImagePreviewController.m */,
 				3DE25E4916D67BA900B5721A /* ProcessDocsViewController.h */,
-				3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.m */,
+				3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.mm */,
 				3DF1C5E816DBDF6D0054C150 /* CropView.h */,
 				3DF1C5E916DBDF6D0054C150 /* CropView.m */,
 				3DE25E1216D3C68100B5721A /* Supporting Files */,
@@ -495,7 +499,7 @@
 				0E9C8B4016D52AF600BB12EF /* CameraDemoOverlayViewController.m in Sources */,
 				3D0C817016D5D0A5004A9D92 /* ImagePreviewController.m in Sources */,
 				3D0C817516D5D63C004A9D92 /* ImageEditController.m in Sources */,
-				3DE25E4C16D67BA900B5721A /* ProcessDocsViewController.m in Sources */,
+				3DE25E4C16D67BA900B5721A /* ProcessDocsViewController.mm in Sources */,
 				3DE25E5616D69FFE00B5721A /* Base64.m in Sources */,
 				3DE25E8916D6A72500B5721A /* ASIAuthenticationDialog.m in Sources */,
 				3DE25E8A16D6A72500B5721A /* ASIDataCompressor.m in Sources */,
