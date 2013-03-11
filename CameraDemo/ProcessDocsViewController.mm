@@ -75,7 +75,8 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 {
     
     @autoreleasepool {
-
+        GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+        GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
         int count = [self.allDocsArray count];
         for (int i = 0; i < count; i++)
         {
@@ -92,13 +93,14 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
              cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);*/
             //UIImage *finalImage = [self UIImageFromCVMat:newMat];
             
-            GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+            
             inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
-            GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
             inputImage = [closingFilter imageByFilteringImage:inputImage];
             [self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
             NSLog(@"Finished");
     }
+        adaptiveThresholdFilter = nil;
+        closingFilter = nil;
 }
 }
 
