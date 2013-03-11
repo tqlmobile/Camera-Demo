@@ -129,8 +129,22 @@
     NSLog(@"%@",info);
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
+    NSLog(@"Original Size: Width:%f Height:%f",originalImage.size.width,originalImage.size.height);
+    CGSize size;
+    size.width = originalImage.size.width/3;
+    size.height = originalImage.size.height/3;
+    [self imageWithImage:originalImage scaledToSize:size];
     [self displayImageforEditing:originalImage];
+    originalImage = nil;
 
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 -(void)addAnotherPage:(NSMutableArray *)imagesArray

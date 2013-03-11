@@ -14,5 +14,6 @@
 @interface ProcessDocsViewController : UIViewController <ASIHTTPRequestDelegate>
 
 @property (nonatomic, strong) NSMutableArray *allDocsArray;
+@property (nonatomic, strong) NSMutableArray *pixelValues;
 
 @end

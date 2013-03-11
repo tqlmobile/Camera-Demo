@@ -77,7 +77,9 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.displayImage = nil;
+    self.cropView = nil;
+    self.imagesArray = nil;
 }
 
 - (void)viewDidUnload
@@ -94,6 +96,7 @@
     }
     return _imagesArray;
 }
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -171,6 +174,7 @@
     self.imageToEdit.image = outputImage;
     [self.imagesArray addObject:outputImage];
     [self.hud hide];
+    CGImageRelease(imageRef);
     [self performSelector:@selector(AddAnotherPage)];
 }
 

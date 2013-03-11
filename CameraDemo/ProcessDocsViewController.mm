@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 Total Quality Logistics. All rights reserved.
 //
 #define kPadding 20
-#define kPageWidth 850
-#define kPageHeight 1100
-#define kImageWidth 810
-#define kImageHeight 1060
+#define kPageWidth 612
+#define kPageHeight 792
+
 
 typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 
@@ -74,48 +73,36 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 
 -(void)enhanceImages
 {
-    CGSize newImageSize;
-    newImageSize.width = 810;
-    newImageSize.height = 1060;
-    int count = [self.allDocsArray count];
-    for (int i = 0; i < count; i++)
-    {
-        UIImage *inputImage = [self.allDocsArray objectAtIndex:i]; 
-        inputImage = [self imageWithImage:inputImage scaledToSize:newImageSize];
-       
-        //Using GPUImageAdaptiveThresholding
-        /*GPUImageRGBOpeningFilter *openFilter = [[GPUImageRGBOpeningFilter alloc]init];
-        [openFilter imageByFilteringImage:inputImage];
-        GPUImageRGBClosingFilter *closeFilter = [[GPUImageRGBClosingFilter alloc]init];
-        [closeFilter imageByFilteringImage:inputImage];
-                GPUImageAdaptiveThresholdFilter *adaptiveThreshFilte = [[GPUImageAdaptiveThresholdFilter alloc]init];
-        inputImage = [adaptiveThreshFilte imageByFilteringImage:inputImage];
-        GPUImageRGBDilationFilter *dilateFilter = [[GPUImageRGBDilationFilter alloc]init];
-        [dilateFilter imageByFilteringImage:inputImage];
-        GPUImageRGBErosionFilter *errodeFilter = [[GPUImageRGBErosionFilter alloc]init];
-        [errodeFilter imageByFilteringImage:inputImage];*/
-        
-        cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
-        cv::Mat greyScale;
-        cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
-        cv::Mat newMat;
-        cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);
-        UIImage *newImage = [self UIImageFromCVMat:newMat];
-        
-        //[self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
-        [self.allDocsArray addObject:newImage];
-       
-        NSLog(@"Finished");
+    
+    @autoreleasepool {
+
+        int count = [self.allDocsArray count];
+        for (int i = 0; i < count; i++)
+        {
+            UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
+            //inputImage = [self imageWithImage:inputImage scaledToSize:size];
+            
+            
+            /*cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
+             cv::Mat greyScale;
+             cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
+             //cv::Mat dst;
+             //cv::equalizeHist(greyScale, dst);
+             cv::Mat newMat;
+             cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);*/
+            //UIImage *finalImage = [self UIImageFromCVMat:newMat];
+            
+            GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+            inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
+            GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
+            inputImage = [closingFilter imageByFilteringImage:inputImage];
+            [self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
+            NSLog(@"Finished");
     }
 }
-
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
 }
+
+
 
 - (cv::Mat)cvMatFromUIImage:(UIImage *)image
 {
@@ -226,7 +213,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 - (CGRect)addImage:(UIImage*)image atPoint:(CGPoint)point
 {
     UIImage *compressedImage = [UIImage imageWithData:UIImageJPEGRepresentation(image, 0.5)];
-    CGRect imageFrame = CGRectMake(point.x, point.y, kImageWidth, kImageHeight);
+    CGRect imageFrame = CGRectMake(point.x, point.y, kPageWidth, kPageHeight);
     [compressedImage drawInRect:imageFrame];
     return imageFrame;
 }
