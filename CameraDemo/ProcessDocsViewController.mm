@@ -96,7 +96,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
             
             inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
             inputImage = [closingFilter imageByFilteringImage:inputImage];
-            [self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
+            [self.allDocsArray addObject:inputImage];
             NSLog(@"Finished");
     }
         adaptiveThresholdFilter = nil;
