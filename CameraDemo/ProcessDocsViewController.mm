@@ -56,7 +56,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     [self performSelector:@selector(enhanceImages)];
     [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
-    for (UIImage *image in _allDocsArray)
+    for (UIImage *image in self.allDocsArray)
     {
         [self beginPDFPage];
         pageNumber++;
@@ -75,36 +75,33 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 {
     
     @autoreleasepool {
-        GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
-        GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
         int count = [self.allDocsArray count];
         for (int i = 0; i < count; i++)
         {
+            NSLog(@"i = %i", i);
             UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
-            //inputImage = [self imageWithImage:inputImage scaledToSize:size];
-            
-            
-            /*cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
-             cv::Mat greyScale;
-             cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
-             //cv::Mat dst;
-             //cv::equalizeHist(greyScale, dst);
-             cv::Mat newMat;
-             cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);*/
-            //UIImage *finalImage = [self UIImageFromCVMat:newMat];
-            
-            
-            inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
-            inputImage = [closingFilter imageByFilteringImage:inputImage];
-            [self.allDocsArray addObject:inputImage];
+            GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+            UIImage *adaptiveThreshImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
+            inputImage = nil;
+            GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
+            UIImage *closingImage = [closingFilter imageByFilteringImage:adaptiveThreshImage];
+            adaptiveThreshImage = nil;
+            [self.allDocsArray addObject:closingImage];
             NSLog(@"Finished");
+            adaptiveThresholdFilter = nil;
+            closingFilter = nil;
     }
-        adaptiveThresholdFilter = nil;
-        closingFilter = nil;
-}
+    }
 }
 
-
+/*cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
+ cv::Mat greyScale;
+ cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
+ //cv::Mat dst;
+ //cv::equalizeHist(greyScale, dst);
+ cv::Mat newMat;
+ cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);*/
+//UIImage *finalImage = [self UIImageFromCVMat:newMat];
 
 - (cv::Mat)cvMatFromUIImage:(UIImage *)image
 {
@@ -199,6 +196,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 }
 
 - (void)beginPDFPage {
+    NSLog(@"Page Number: %i",pageNumber);
     UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, _pageSize.width, _pageSize.height), nil);
     
     [self addImage:[self.allDocsArray objectAtIndex:pageNumber]

@@ -79,7 +79,7 @@
     [super didReceiveMemoryWarning];
     self.displayImage = nil;
     self.cropView = nil;
-    self.imagesArray = nil;
+
 }
 
 - (void)viewDidUnload
