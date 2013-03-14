@@ -54,14 +54,14 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     [options setObject: [NSNull null] forKey: kCIContextWorkingColorSpace];
     context = [CIContext contextWithOptions:options];
     [self performSelector:@selector(enhanceImages)];
-    [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
+    /*[self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
     for (UIImage *image in self.allDocsArray)
     {
         [self beginPDFPage];
         pageNumber++;
     }
-    [self finishPDF];
+    [self finishPDF];*/
     
 }
 
@@ -81,16 +81,14 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
             NSLog(@"i = %i", i);
             UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
             GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
-            UIImage *adaptiveThreshImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
-            inputImage = nil;
-            GPUImageClosingFilter *closingFilter = [[GPUImageClosingFilter alloc]initWithRadius:1];
-            UIImage *closingImage = [closingFilter imageByFilteringImage:adaptiveThreshImage];
-            adaptiveThreshImage = nil;
-            [self.allDocsArray addObject:closingImage];
-            NSLog(@"Finished");
+            inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
             adaptiveThresholdFilter = nil;
-            closingFilter = nil;
-    }
+            [self.allDocsArray addObject:inputImage];
+            inputImage = nil;
+            NSLog(@"Finished");
+            sleep(3);
+        }
+
     }
 }
 
