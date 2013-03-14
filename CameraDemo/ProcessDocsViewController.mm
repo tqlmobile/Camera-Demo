@@ -54,14 +54,14 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     [options setObject: [NSNull null] forKey: kCIContextWorkingColorSpace];
     context = [CIContext contextWithOptions:options];
     [self performSelector:@selector(enhanceImages)];
-    /*[self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
+    [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
     for (UIImage *image in self.allDocsArray)
     {
         [self beginPDFPage];
         pageNumber++;
     }
-    [self finishPDF];*/
+    [self finishPDF];
     
 }
 
