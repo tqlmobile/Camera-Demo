@@ -9,6 +9,8 @@
 #import "ImageEditController.h"
 #import "ImagePreviewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ImageHelper.h"
+#import "GPUImage.h"  
 
 #define kResizeThumbSize 45
 
@@ -171,11 +173,40 @@
     UIImage *image = [self rotate:self.displayImage andOrientation:UIImageOrientationUp];
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
     UIImage *outputImage = [UIImage imageWithCGImage:imageRef];
+    NSLog(@"Image Size: %f x %f",outputImage.size.width,outputImage.size.height);
     self.imageToEdit.image = outputImage;
-    [self.imagesArray addObject:outputImage];
+    
+    [self enhanceImage:outputImage];
+    
+    //[self.imagesArray addObject:outputImage];
     [self.hud hide];
     CGImageRelease(imageRef);
     [self performSelector:@selector(AddAnotherPage)];
+}
+
+- (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize {
+    CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
+    CGImageRef imageRef = image.CGImage;
+    
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.5);
+    CGContextRef contextz = UIGraphicsGetCurrentContext();
+    
+    // Set the quality level to use when rescaling
+    CGContextSetInterpolationQuality(contextz, kCGInterpolationHigh);
+    CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, newSize.height);
+    
+    CGContextConcatCTM(contextz, flipVertical);
+    // Draw into the context; this scales the image
+    CGContextDrawImage(contextz, newRect, imageRef);
+    
+    // Get the resized image from the context and a UIImage
+    CGImageRef newImageRef = CGBitmapContextCreateImage(contextz);
+    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    
+    CGImageRelease(newImageRef);
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 -(UIImage*) rotate:(UIImage*) src andOrientation:(UIImageOrientation)orientation
@@ -243,6 +274,95 @@
         default:
             break;
     }
+}
+
+#pragma mark - Enhance Image
+
+-(void)enhanceImage:(UIImage *)image
+{
+    dispatch_queue_t myCustomQueue;
+    myCustomQueue = dispatch_queue_create("com.example.MyCustomQueue", NULL);
+    
+    dispatch_async(myCustomQueue, ^{
+        UIImage *inputImage = image;
+        GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+        [adaptiveThresholdFilter setBlurSize:3];
+        [adaptiveThresholdFilter setShouldSmoothlyScaleOutput:TRUE];
+        inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
+        adaptiveThresholdFilter = nil;
+        /*cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
+        cv::Mat greyScale;
+        cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
+        //cv::Mat dst;
+        //cv::equalizeHist(greyScale, dst);
+        cv::Mat newMat;
+        cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 10);
+        UIImage *finalImage = [self UIImageFromCVMat:newMat];*/
+        //[self.allDocsArray replaceObjectAtIndex:i withObject:finalImage];
+        [self.imagesArray addObject:inputImage];
+        NSLog(@"Finished");
+    });
+}
+
+- (cv::Mat)cvMatFromUIImage:(UIImage *)image
+{
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
+    CGFloat cols = image.size.width;
+    CGFloat rows = image.size.height;
+    
+    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    
+    CGContextRef contextRef = CGBitmapContextCreate(cvMat.data,                 // Pointer to  data
+                                                    cols,                       // Width of bitmap
+                                                    rows,                       // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    cvMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    kCGImageAlphaNoneSkipLast |
+                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), image.CGImage);
+    CGContextRelease(contextRef);
+    CGColorSpaceRelease(colorSpace);
+    
+    return cvMat;
+}
+
+-(UIImage *)UIImageFromCVMat:(cv::Mat)cvMat
+{
+    NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize()*cvMat.total()];
+    CGColorSpaceRef colorSpace;
+    
+    if (cvMat.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    // Creating CGImage from cv::Mat
+    CGImageRef imageRef = CGImageCreate(cvMat.cols,                                 //width
+                                        cvMat.rows,                                 //height
+                                        8,                                          //bits per component
+                                        8 * cvMat.elemSize(),                       //bits per pixel
+                                        cvMat.step[0],                            //bytesPerRow
+                                        colorSpace,                                 //colorspace
+                                        kCGImageAlphaNone|kCGBitmapByteOrderDefault,// bitmap info
+                                        provider,                                   //CGDataProviderRef
+                                        NULL,                                       //decode
+                                        false,                                      //should interpolate
+                                        kCGRenderingIntentDefault                   //intent
+                                        );
+    
+    
+    // Getting UIImage from CGImage
+    UIImage *finalImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    return finalImage;
 }
 
 

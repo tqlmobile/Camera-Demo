@@ -7,6 +7,7 @@
 //
 
 #import "CameraDemoViewController.h"
+#import "ProcessDocsViewController.h"
 
 @interface CameraDemoViewController ()
 {
@@ -97,6 +98,19 @@
     self.cameraUI.cameraOverlayView = self.overlay.view;
     self.overlay.picturesTakenLabel.text = [NSString stringWithFormat:@"Pictures Taken: %i",[self.picsArray count]];
     [self presentModalViewController:self.cameraUI animated: YES];
+    
+    /*UIImage *stubImage = [UIImage imageNamed:@"example.jpg"];
+    CGSize size;
+    size.width = stubImage.size.width/3;
+    size.height = stubImage.size.height/3;
+    stubImage = [self imageWithImage:stubImage scaledToSize:size];
+    NSLog(@"StubImage size: w%f x h%f",stubImage.size.width,stubImage.size.height);
+    
+    NSMutableArray *stubArray = [NSMutableArray arrayWithObjects:stubImage,stubImage,stubImage,stubImage,stubImage,stubImage,stubImage, nil];
+    
+    ProcessDocsViewController *vcx = [[ProcessDocsViewController alloc]init];
+    [vcx setAllDocsArray:stubArray];
+    [self.navigationController pushViewController:vcx animated:TRUE];*/
 }
 
 - (IBAction)openPhotos:(id)sender
@@ -130,13 +144,12 @@
    
     UIImage *originalImage = (UIImage *) [info objectForKey: UIImagePickerControllerOriginalImage];
     NSLog(@"Original Size: Width:%f Height:%f",originalImage.size.width,originalImage.size.height);
-    CGSize size;
-    size.width = originalImage.size.width/3;
-    size.height = originalImage.size.height/3;
-    [self imageWithImage:originalImage scaledToSize:size];
+    //CGSize size;
+    //size.width = 936;
+    //size.height = 1592;
+    //originalImage = [self imageWithImage:originalImage scaledToSize:size];
     [self displayImageforEditing:originalImage];
     originalImage = nil;
-
 }
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {

@@ -122,7 +122,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     cell.textLabel.text = [NSString stringWithFormat:@"Document %i", indexPath.row];
-    cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+    //cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
     cell.shouldIndentWhileEditing = YES;
     // Configure the cell...
     

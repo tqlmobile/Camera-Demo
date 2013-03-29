@@ -52,16 +52,25 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject: [NSNull null] forKey: kCIContextWorkingColorSpace];
-    context = [CIContext contextWithOptions:options];
-    [self performSelector:@selector(enhanceImages)];
+    context = [CIContext contextWithOptions:nil];
+    //[self performSelector:@selector(enhanceImages)];
     [self setupPDFDocumentNamed:@"SamplePDF" Width:kPageWidth Height:kPageHeight];
     pageNumber = 0;
-    for (UIImage *image in self.allDocsArray)
-    {
+    
+    //int count = [self.allDocsArray count];
+    /*dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_apply(count, queue, ^(size_t i) {
         [self beginPDFPage];
         pageNumber++;
-    }
+    });*/
+    for (UIImage *image in self.allDocsArray)
+     {
+     [self beginPDFPage];
+     pageNumber++;
+     }
     [self finishPDF];
+    
+    
     
 }
 
@@ -71,11 +80,32 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     // Dispose of any resources that can be recreated.
 }
 
--(void)enhanceImages
+
+/*-(void)enhanceImages
 {
+    
     
     @autoreleasepool {
         int count = [self.allDocsArray count];
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_apply(count, queue, ^(size_t i) {
+            UIImage *inputImage = [self.allDocsArray objectAtIndex:i];
+            GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
+            inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
+            [self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
+            adaptiveThresholdFilter = nil;
+            cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
+            cv::Mat greyScale;
+            cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
+            //cv::Mat dst;
+            //cv::equalizeHist(greyScale, dst);
+            cv::Mat newMat;
+            cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);
+            UIImage *finalImage = [self UIImageFromCVMat:newMat];
+            [self.allDocsArray replaceObjectAtIndex:i withObject:finalImage];
+            NSLog(@"Finished");
+        });
+
         for (int i = 0; i < count; i++)
         {
             NSLog(@"i = %i", i);
@@ -83,24 +113,15 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
             GPUImageAdaptiveThresholdFilter *adaptiveThresholdFilter = [[GPUImageAdaptiveThresholdFilter alloc]init];
             inputImage = [adaptiveThresholdFilter imageByFilteringImage:inputImage];
             adaptiveThresholdFilter = nil;
-            [self.allDocsArray addObject:inputImage];
+            [self.allDocsArray replaceObjectAtIndex:i withObject:inputImage];
             inputImage = nil;
             NSLog(@"Finished");
-            sleep(3);
         }
 
     }
 }
 
-/*cv::Mat inputMat = [self cvMatFromUIImage:inputImage];
- cv::Mat greyScale;
- cv::cvtColor(inputMat, greyScale, CV_BGR2GRAY);
- //cv::Mat dst;
- //cv::equalizeHist(greyScale, dst);
- cv::Mat newMat;
- cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 20);*/
-//UIImage *finalImage = [self UIImageFromCVMat:newMat];
-
+ 
 - (cv::Mat)cvMatFromUIImage:(UIImage *)image
 {
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(image.CGImage);
@@ -160,7 +181,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     CGColorSpaceRelease(colorSpace);
     
     return finalImage;
-}
+}*/
 
 
 
@@ -210,7 +231,7 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 #pragma mark- Add a PDF Page
 - (CGRect)addImage:(UIImage*)image atPoint:(CGPoint)point
 {
-    UIImage *compressedImage = [UIImage imageWithData:UIImageJPEGRepresentation(image, 0.5)];
+    UIImage *compressedImage = [UIImage imageWithData:UIImageJPEGRepresentation(image, 0)];
     CGRect imageFrame = CGRectMake(point.x, point.y, kPageWidth, kPageHeight);
     [compressedImage drawInRect:imageFrame];
     return imageFrame;
