@@ -271,6 +271,9 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
     NSString *responseString = [request responseString];
     NSLog(@"%@",responseString);
     
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"TQL Document Processing" message:@"Document Sent Successfully" delegate:self cancelButtonTitle:@"Close" otherButtonTitles: nil];
+    [alert show];
+    
     //Remove files from Library directory
     /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -283,6 +286,9 @@ typedef void (*FilterCallback)(UInt8 *pixelBuf, UInt32 offset, void *context);
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
+    NSString *errorMessage = [NSString stringWithFormat:@"The following error occured: %@",error.localizedDescription];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"TQL Document Processing" message:errorMessage delegate:self cancelButtonTitle:@"Close" otherButtonTitles: nil];
+    [alert show];
 }
 
 -(BOOL)fileExistsAtAbsolutePath:(NSString*)filename {
