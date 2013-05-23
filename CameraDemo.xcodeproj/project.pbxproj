@@ -64,6 +64,8 @@
 		3DF1C61816DD54290054C150 /* ATMTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C61016DD54290054C150 /* ATMTextLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3DF1C61B16DD55BA0054C150 /* ATMSoundFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1C61A16DD55BA0054C150 /* ATMSoundFX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3DF1C61D16DD55D10054C150 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DF1C61C16DD55D10054C150 /* AudioToolbox.framework */; };
+		3DF856F217201FA9003B67AB /* ImagePreviewTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF856F117201FA9003B67AB /* ImagePreviewTableCell.m */; };
+		3DF856F617201FCA003B67AB /* ImagePreviewTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DF856F517201FCA003B67AB /* ImagePreviewTableCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +183,9 @@
 		3DF1C61916DD55BA0054C150 /* ATMSoundFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATMSoundFX.h; sourceTree = "<group>"; };
 		3DF1C61A16DD55BA0054C150 /* ATMSoundFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATMSoundFX.m; sourceTree = "<group>"; };
 		3DF1C61C16DD55D10054C150 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3DF856F017201FA9003B67AB /* ImagePreviewTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePreviewTableCell.h; sourceTree = "<group>"; };
+		3DF856F117201FA9003B67AB /* ImagePreviewTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePreviewTableCell.m; sourceTree = "<group>"; };
+		3DF856F517201FCA003B67AB /* ImagePreviewTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImagePreviewTableCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +226,7 @@
 				3D0C817416D5D63B004A9D92 /* ImageEditController.xib */,
 				3D0C816F16D5D0A5004A9D92 /* ImagePreviewController.xib */,
 				3DE25E4B16D67BA900B5721A /* ProcessDocsViewController.xib */,
+				3DF856F517201FCA003B67AB /* ImagePreviewTableCell.xib */,
 			);
 			name = xib;
 			sourceTree = "<group>";
@@ -304,6 +310,8 @@
 				3DE25E4A16D67BA900B5721A /* ProcessDocsViewController.mm */,
 				3DF1C5E816DBDF6D0054C150 /* CropView.h */,
 				3DF1C5E916DBDF6D0054C150 /* CropView.m */,
+				3DF856F017201FA9003B67AB /* ImagePreviewTableCell.h */,
+				3DF856F117201FA9003B67AB /* ImagePreviewTableCell.m */,
 				3DE25E1216D3C68100B5721A /* Supporting Files */,
 			);
 			path = CameraDemo;
@@ -487,6 +495,7 @@
 				3DF1C61116DD54290054C150 /* 11-x.png in Resources */,
 				3DF1C61216DD54290054C150 /* 19-check.png in Resources */,
 				3D78A2E31704D7FA004A017D /* example.jpg in Resources */,
+				3DF856F617201FCA003B67AB /* ImagePreviewTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +531,7 @@
 				3DF1C61816DD54290054C150 /* ATMTextLayer.m in Sources */,
 				3DF1C61B16DD55BA0054C150 /* ATMSoundFX.m in Sources */,
 				3D2D28FB16E66BB000656E5B /* ImageHelper.m in Sources */,
+				3DF856F217201FA9003B67AB /* ImagePreviewTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

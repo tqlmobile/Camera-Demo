@@ -8,6 +8,7 @@
 
 #import "ImagePreviewController.h"
 #import "ProcessDocsViewController.h"
+#import "ImagePreviewTableCell.h"
 
 @interface ImagePreviewController ()
 {
@@ -108,6 +109,11 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 103;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -117,12 +123,35 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ImagePreviewTableCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ImagePreviewTableCell" owner:self options:nil];
+        // Grab a pointer to the first object (presumably the custom cell, as that's all the XIB should contain).
+        cell = [topLevelObjects objectAtIndex:0];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"Document %i", indexPath.row];
-    //cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+    switch (indexPath.row) {
+        case 0:
+            cell.poNumLabel.text = @"2321034";
+            cell.laneLabel.text = @"FL to NC";
+            cell.docTypeLabel.text = @"BOL";
+            cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+            break;
+        case 1:
+            cell.poNumLabel.text = @"2321034";
+            cell.laneLabel.text = @"FL to NC";
+            cell.docTypeLabel.text = @"Fuel Receipt";
+            cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+            break;
+        case 2:
+            cell.poNumLabel.text = @"2321034";
+            cell.laneLabel.text = @"FL to NC";
+            cell.docTypeLabel.text = @"Claims Document";
+            cell.imageView.image = [self.arrayOfImages objectAtIndex:indexPath.row];
+            break;
+        default:
+            break;
+    }
+    
     cell.shouldIndentWhileEditing = YES;
     // Configure the cell...
     

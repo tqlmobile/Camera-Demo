@@ -102,7 +102,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [[event allTouches] anyObject];
+    //UITouch *touch = [[event allTouches] anyObject];
     touchStart = [[touches anyObject] locationInView:self.cropView];
    
     isResizingUR = (self.cropView.bounds.size.width-touchStart.x < kResizeThumbSize && touchStart.y<kResizeThumbSize);
@@ -178,7 +178,7 @@
     
     [self enhanceImage:outputImage];
     
-    //[self.imagesArray addObject:outputImage];
+    [self.imagesArray addObject:outputImage];
     [self.hud hide];
     CGImageRelease(imageRef);
     [self performSelector:@selector(AddAnotherPage)];
@@ -299,7 +299,7 @@
         cv::adaptiveThreshold(greyScale, newMat, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 75, 10);
         UIImage *finalImage = [self UIImageFromCVMat:newMat];*/
         //[self.allDocsArray replaceObjectAtIndex:i withObject:finalImage];
-        [self.imagesArray addObject:inputImage];
+        //[self.imagesArray addObject:inputImage];
         NSLog(@"Finished");
     });
 }
